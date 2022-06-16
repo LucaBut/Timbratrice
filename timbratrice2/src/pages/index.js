@@ -1,4 +1,5 @@
-import React from 'react';
+// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./index.css";
 
 var data = new Date();
@@ -12,7 +13,8 @@ m = data.getMonth();
 a = data.getFullYear();
 dd = data.getDate();
 
-const Home = () => {
+
+const Home = (dateState, useEffect) => {
     return (
         <div className='App'>
             <h1 className='title'><center>BENVENUTO NELL'AZIENDA</center></h1>

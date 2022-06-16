@@ -8,8 +8,8 @@ services:
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=Timbratrice
-            - MYSQL_USER=luca
-            - MYSQL_PASSWORD=luca
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=root
         ports:
             - '40002:3306'
 
@@ -29,11 +29,40 @@ services:
             - '.:/application'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
 
+    # my_sailapplication:
+    #     build: 
+    #         context: ./my_sailapplication
+    #         dockerfile: dockerfile
+    #     # networks:
+    #     #     - my_sailapplication
+    #     environment:
+    #         - DB_DATABASE=mysql
+    #         - DB_HOST=mysql
+    #         - DB_PORT=3306
+    #         - DB_DATABASE=Timbratrice
+    #         - DB_USERNAME=root
+    #         - DB_PASSWORD=root
+    #     depends_on:
+    #         - mysql
+    #     ports:
+    #         - 8000:8000
+    #     volumes:
+    #         - '.:/application'
+    #         - '.:/my_sailapplication'
+
     app:
         image: node:14-alpine
+        # build: 
+            # context: ./timbratrice2
+            # dockerfile: dockerfile
+        # networks:
+        #     - application
         volumes:
         - ./timbratrice2:/application
         working_dir: /application
+        tty: true
+        # depends_on:
+        #     - my_sailapplication
         ports:
         - 3000:3000
         command: npm start

@@ -13,4 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('posts/{post}/data', 'PostToDataController@Trimbratrice')->name('post.to.data');
+Route::get('/', function () {
+    return view('welcome');
+});
