@@ -32,7 +32,7 @@ services:
     app:
         image: node:14-alpine
         volumes:
-        - ./mio-index:/application
+        - ./timbratrice2:/application
         working_dir: /application
         ports:
         - 3000:3000

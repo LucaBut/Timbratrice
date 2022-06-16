@@ -1,0 +1,19 @@
+.bsub {
+    background-color: red;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+.l1 {
+    display: flex;
+    margin-left: 10px;
+}
+
+.l2 {
+    display: flex;
+}
+
+.i1 {
+    float: right;
+    margin-left: 16px;
+}
