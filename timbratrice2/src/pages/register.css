@@ -7,7 +7,6 @@
 
 .l1 {
     display: flex;
-    margin-left: 10px;
 }
 
 .l2 {
@@ -20,4 +19,8 @@
 
 .i3 {
     margin-left: 30px;
+}
+
+.l4{
+    display: flex;
 }
