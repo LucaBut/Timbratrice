@@ -1,0 +1,8 @@
+db/private_key.pem
+db/ca-key.pem
+db/ca.pem
+db/client-cert.pem
+db/client-key.pem
+db/public_key.pem
+db/server-cert.pem
+db/server-key.pem
