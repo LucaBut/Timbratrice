@@ -43,7 +43,7 @@ const SignUp = () => {
     return (
         <center>
             <div>
-                <h1>Login Page</h1>
+                <h1><center>Login Page</center></h1>
                 <form method='POST'>
                     <label className='l1' for="Nome">
                         Nome:

@@ -13,5 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('insert', 'userController@insertfom');
-Route::post('create', 'userController@insert');
+// Route::get('insert', 'userController@insertfom');
+// Route::post('create', 'userController@insert');
+
+// Route::get('/view', 'userController@getUser');

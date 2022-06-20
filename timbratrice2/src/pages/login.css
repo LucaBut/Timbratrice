@@ -17,3 +17,11 @@
     float: right;
     margin-left: 16px;
 }
+
+h1 {
+    text-align: center;
+}
+
+form {
+    align-items: center;
+}

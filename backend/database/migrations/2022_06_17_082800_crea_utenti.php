@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        schema::insert('utenti', function(Blueprint $table){
+        schema::create('login', function(Blueprint $table){
             $table->bigIncrements('id');
             $table->string('nome');
             $table->string('cognome');
-            $table->string('email');
-        })
+            $table->integer('ora_id');
+        });
     }
 
     /**

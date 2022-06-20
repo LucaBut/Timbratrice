@@ -21,6 +21,14 @@
     margin-left: 30px;
 }
 
-.l4{
+.l4 {
     display: flex;
+}
+
+form {
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
 }
