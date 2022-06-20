@@ -14,7 +14,7 @@ class Register extends Component {
  
     handleInput = (e) => {
         this.setState({
-            [e.target.nome]: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
@@ -36,6 +36,7 @@ class Register extends Component {
     }
 
     render() {
+        // const {nome, cognome, email, password} = this.state;
         return (
             <center>
                 <div>
@@ -43,19 +44,19 @@ class Register extends Component {
                     <form onSubmit={this.savereg}>
                         <label className='l1'>
                             Nome:
-                            <input className='i1' type="text" name='nome' onChange={this.handleInput} value={this.setState.nome} />
+                            <input className='i1' type="text" name='nome' onChange={this.handleInput} value={this.state.nome} />
                         </label>
                         <label className='l2'>
                             Cognome:
-                            <input className='i2' type="text" name="cognome" onChange={this.handleInput} value={this.setState.cognome} />
+                            <input className='i2' type="text" name="cognome" onChange={this.handleInput} value={this.state.cognome} />
                         </label>
                         <label className='l3'>
                             Email:
-                            <input className='i3' type="email" name="email" onChange={this.handleInput} value={this.setState.email} />
+                            <input className='i3' type="email" name="email" onChange={this.handleInput} value={this.state.email} />
                         </label>
                         <label className='l4'>
                             Password:
-                            <input className='i4' type="password" name='password' onChange={this.handleInput} value={this.setState.password} />
+                            <input className='i4' type="password" name='password' onChange={this.handleInput} value={this.state.password} />
                         </label>
                         <button className='bsub' type='submit'>Submit</button>
                         <h5>If you have registred yet, you can login <a href='/'>here</a></h5>

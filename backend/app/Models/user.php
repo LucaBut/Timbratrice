@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class user extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'registro';
     protected $fillable = [
         'nome', 

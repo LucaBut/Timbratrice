@@ -1,42 +1,63 @@
-import React from "react";
+import React, { Component } from "react";
 import "./view.css";
 import axios, { Axios } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Vista(){
-    const [users_list, setUserList] = useState([]);
+class Vista extends Component{
 
-    let navigate = useNavigate();
+    state = {
+        utenti: [],
+        loading: true,
+    }
 
-    const Vista = () => {
-        Axios.length("http://localhost:3036/view").then((response) => {
-            setUserList(response.data);
-        });
-    };
+   async componentDidMount(){
+        const res = await axios.get('http://127.0.0.1:8000/api/utenti');
+        console.log(res.data);
 
-    return (
-        <div className="users">
-            <button onClick={Vista}>Show Users</button>
-            <h3>
-            </h3>
-            {users_list.map((val, key) => {
-                return (
-                    <div className="user">
-                        <div>
-                            <h3>Email: {val.email}</h3>
-                            <h3>Nome: {val.nome}</h3>
-                            <h3>Cognome: {val.cognome}</h3>
-                            <h3>Orario entrata: {val.ora_inizio}</h3>
-                            <h3>Orario uscita: {val.ora_fine}</h3>
-                        </div>
-                    </div>
-                )
-            })}
-        </div>
-    )
+        if(res.data.status === 200){
+            this.setState({
+                utenti: res.data.utenti,
+                loading: false,
+            })
+        }
+    }
+
+    render(){
+
+        var utenti_HTMLTABLE = "";
+        if(this.state.loading){
+            utenti_HTMLTABLE = <tr><td colSpan="7"><h2>Loading...</h2></td></tr>
+        }else{
+            utenti_HTMLTABLE = 
+            this.state.utenti.map((item) => {
+              return  (
+                <tr key={item.cognome}>
+                    <td>{item.nome}</td>
+                    <td>{item.cognome}</td>
+                    <td>{item.email}</td>
+                </tr>
+              )
+            });
+        }
+
+        return(
+            <div className="utenti">
+                <table className="tutenti">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {utenti_HTMLTABLE}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
 }
-
-
 
 export default Vista;

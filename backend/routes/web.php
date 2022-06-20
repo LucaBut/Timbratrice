@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 // Route::post('create', 'userController@insert');
 
 // Route::get('/view', 'userController@getUser');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
