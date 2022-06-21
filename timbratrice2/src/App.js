@@ -6,6 +6,11 @@ import Home from './pages/index';
 import SignUp from './pages/login';
 import Register from './pages/register';
 import Vista from './pages/vista';
+import axios from 'axios';
+
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Accept'] = 'application/json';
+axios.defaults.withCredentials = true;
 
 function App() {
 	return (

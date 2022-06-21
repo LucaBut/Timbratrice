@@ -15,7 +15,7 @@ export const Nav = styled.nav`
 `;
 
 export const NavLink = styled(Link)`
-  color: #fcd2d2;
+  color: rgb(0, 0, 0);
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -31,7 +31,7 @@ export const Bars = styled(FaBars)`
   display: none;
   position: fixed;
   top: 0;
-  color: #fcd2d2;
+  color: rgb(0, 0, 0);
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;

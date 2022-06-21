@@ -3,6 +3,8 @@ import "./view.css";
 import axios, { Axios } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import { Table } from "react-bootstrap";
 
 class Vista extends Component{
 
@@ -13,7 +15,7 @@ class Vista extends Component{
 
    async componentDidMount(){
         const res = await axios.get('http://127.0.0.1:8000/api/utenti');
-        console.log(res.data);
+        // console.log(res.data);
 
         if(res.data.status === 200){
             this.setState({
@@ -32,10 +34,11 @@ class Vista extends Component{
             utenti_HTMLTABLE = 
             this.state.utenti.map((item) => {
               return  (
-                <tr key={item.cognome}>
-                    <td>{item.nome}</td>
-                    <td>{item.cognome}</td>
-                    <td>{item.email}</td>
+                <tr key={item.id_registro}>
+                    <td><center>{item.id_registro}</center></td>
+                    <td><center>{item.nome}</center></td>
+                    <td><center>{item.cognome}</center></td>
+                    <td><center>{item.email}</center></td>
                 </tr>
               )
             });
@@ -43,9 +46,10 @@ class Vista extends Component{
 
         return(
             <div className="utenti">
-                <table className="tutenti">
+                <Table striped bordered hover>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nome</th>
                             <th>Cognome</th>
                             <th>Email</th>
@@ -54,9 +58,9 @@ class Vista extends Component{
                     <tbody>
                         {utenti_HTMLTABLE}
                     </tbody>
-                </table>
+                </Table>
             </div>
-        )
+        );
     }
 }
 

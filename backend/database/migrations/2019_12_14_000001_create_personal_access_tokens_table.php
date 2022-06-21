@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
 return new class extends Migration
 {
@@ -11,26 +12,26 @@ return new class extends Migration
      *
      * @return void
      */
-    // public function up()
-    // {
-    //     Schema::create('personal_access_tokens', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->morphs('tokenable');
-    //         $table->string('name');
-    //         $table->string('token', 64)->unique();
-    //         $table->text('abilities')->nullable();
-    //         $table->timestamp('last_used_at')->nullable();
-    //         $table->timestamps();
-    //     });
-    // }
+    public function up()
+    {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamps();
+        });
+    }
 
-    // /**
-    //  * Reverse the migrations.
-    //  *
-    //  * @return void
-    //  */
-    // public function down()
-    // {
-    //     Schema::dropIfExists('personal_access_tokens');
-    // }
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('personal_access_tokens');
+    }
 };
