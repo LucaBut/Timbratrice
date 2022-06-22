@@ -2,16 +2,18 @@ import { FaBars } from "react-icons/fa";
 import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
 
+
 export const Nav = styled.nav`
-  background: #fcd2d2;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 85px;
-  /* display: flex; */
+  background: #ffffff;
+  display: flex;
   justify-content: space-between;
-  /* padding: 0.2rem calc((100vw - 1000px) / 2); */
-  z-index: 12;
+  padding-bottom: 0;
+  height: 70px;
+  align-items: center;
+  position:absolute;
+  top:0px;
+  float: right;
+  width: 300px;
 `;
 
 export const NavLink = styled(Link)`

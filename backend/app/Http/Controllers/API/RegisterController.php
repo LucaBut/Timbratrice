@@ -13,9 +13,65 @@ class RegisterController extends Controller
 {
 
     public function login(Request $request){
-        $login = new login;
-        $login -> email = $request -> input('email');
-        $login -> password = $request -> input('password');
+        $validator = Validator::make($request ->all(), [
+            'email'=>'required|max:191',
+            'password'=>'required',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }else{
+            $user = user::where('email', $request->email)->first();
+            if(! $user || ! Hash::check($request->password, $user->password)){
+                return response()->json([
+                    'status'=>401,
+                    'message'=>'Invalid credetials',
+                ]);
+            }
+            else{
+                $token = $user->createToken($user->email.'_Token')->plainTextToken;
+
+                return response()->json([
+                    'status'=>200,
+                    'username'=>$user->email,
+                    'token'=>$token,
+                    'message'=>'Logged In Successfully',
+                ]);
+            }
+        }
+    }
+
+    public function start_day(){
+        $validator = Validator::make($request ->all(), [
+            'timestamp'=>'required',
+            'email'=>'required',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }else{
+            $login = login::create([
+                'timestamp'=>$request->timestamp,
+                'email'=>$request->email,
+            ]);
+                return response()->json([
+                    'status'=>200,
+                    'username'=>$user->email,
+                    'message'=>'Success',
+                ]);
+            }
+        }
+
+    
+
+    public function logout(){
+        auth()->user()->Tokens()->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Logged out Successfully'
+        ]);
     }
 
     public function getUser(){
@@ -24,7 +80,6 @@ class RegisterController extends Controller
             'status'=>200,
             'utenti'=>$utenti,
         ]);
-
     }
 
     public function store(Request $request){
@@ -50,7 +105,7 @@ class RegisterController extends Controller
             $token = $user->createToken($user->email.'_token')->plainTextToken;
             return response()->json([
                 'status'=>200,
-                'username'=>$user->nome,
+                'username'=>$user->email,
                 'token'=>$token,
                 'message'=>'Registred Successfully',
             ]);

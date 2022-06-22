@@ -18,7 +18,7 @@ function Register() {
 
     const handleInput = (e) => {
         e.persist();
-        setRegister({ ...registerInput, [e.target.name]: e.target.value });
+        setRegister({...registerInput, [e.target.name]: e.target.value });
     }
 
     const registerSubmit = (e) => {
@@ -36,8 +36,10 @@ function Register() {
                 if (res.data.status === 200) {
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('auth_nome', res.data.username);
-                    swal("Success", res.data.message, "success");
-                    history.pushState('/')
+                    swal("Success", res.data.message, "success").then(function(){
+                        window.location = '/';
+                    });
+                    history.push('/');
                 } else {
                     setRegister({ ...registerInput, error_list: res.data.validation_errors })
                 }
