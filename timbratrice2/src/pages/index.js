@@ -7,13 +7,11 @@ import swal from 'sweetalert';
 
 function Home() {
 
-    const history = useNavigate();
-
     const [start, setStart] = useState({
-        timestamp: Date.now(),
         email: '',
-        error: [],
+        error_list: [],
     });
+
 
     const handleDate = (e) => {
         e.persist();
@@ -22,25 +20,56 @@ function Home() {
 
     const startSubmit = (e) => {
         e.preventDefault();
+        start.email = localStorage.getItem('auth_nome');
         const data = {
-            timestamp: start.timestamp,
             email: start.email,
         }
 
-        axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
-            axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
-                if (res.data.status === 200) {
-                    start.email = localStorage.getItem('auth_nome', res.data.username);
-                    swal("Inizio", res.data.message, "success").then(function () {
-                        window.location = '/';
-                    })
-                    localStorage.clear();
-                    history.push('/');
-                } else {
-                    setStart({ ...start, error_list: res.data.validation_error });
-                }
-            })
-        });
+        
+        console.log(start.email);
+        axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
+            if (res.data.status === 200) {
+                // start.email = localStorage.getItem('auth_nome', res.data.username);
+                localStorage.clear();
+                console.log(start.email);
+                swal("Buon lavoro e vaffanculo", res.data.message, "success").then(function () {
+                    window.location = '/';
+                })
+            } else {
+                setStart({ ...start, error_list: res.data.validation_error });
+            }
+        })
+    }
+
+
+    const [end, setEnd] = useState({
+        email: '',
+        error_list_: [],
+    })
+
+    const handleEnd = (e) => {
+        e.persist();
+        setEnd({ ...end, [e.target.name]: e.target.value });
+    }
+
+    const endSubmit = (e) => {
+        e.preventDefault();
+        end.email = localStorage.getItem('auth_nome');
+        const data = {
+            email: end.email,
+        }
+
+        axios.post('http://127.0.0.1:8000/api/fine', data).then(res => {
+            if (res.data.status === 200) {
+                console.log(end.email);
+                localStorage.clear();
+                swal("Arrivederci", res.data.message, "success").then(function () {
+                    window.location = '/';
+                })
+            } else {
+                setEnd({ ...end, error_list_: res.data.validation_error });
+            }
+        })
     }
 
 
@@ -55,15 +84,21 @@ function Home() {
     dd = data.getDate();
 
     return (
-        <form onSubmit={startSubmit}>
+        
             <div className='App'>
+        <form onSubmit={startSubmit}>
+            <div>
                 <center><h1 className='title'>Benvenuto nell'azienda</h1></center>
-                <button className="b1" onChange={handleDate} value={start.timestamp}>Timbro inizio turno</button>
-                <h4 className='clock'>{("Sono le ore: " + Hh + ":" + Mm + ":" + Ss + " del giorno: " + dd + "-" + m + "-" + a).toString()}</h4>
-                <button className="b2">Timbro fine turno</button>
+                <button className="b1" onChange={handleDate} value={start.email}>Timbro inizio turno</button>
             </div>
         </form>
-
+                <h4 className='clock'>{("Sono le ore: " + Hh + ":" + Mm + ":" + Ss + " del giorno: " + dd + "-" + m + "-" + a).toString()}</h4>
+        <form onSubmit={endSubmit}>
+            <div>
+                <button className="b2" onChange={handleEnd} value={start.email}>Timbro fine turno</button>
+            </div>
+        </form>
+        </div>
     );
 
 }

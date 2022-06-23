@@ -9,7 +9,7 @@ import { Table } from "react-bootstrap";
 class Vista extends Component{
 
     state = {
-        utenti: [],
+        login: [],
         loading: true,
     }
 
@@ -19,11 +19,12 @@ class Vista extends Component{
 
         if(res.data.status === 200){
             this.setState({
-                utenti: res.data.utenti,
+                login: res.data.login,
                 loading: false,
             })
         }
     }
+
 
     render(){
 
@@ -32,16 +33,23 @@ class Vista extends Component{
             utenti_HTMLTABLE = <tr><td colSpan="7"><h2>Loading...</h2></td></tr>
         }else{
             utenti_HTMLTABLE = 
-            this.state.utenti.map((item) => {
+            this.state.login.map((item) => {
               return  (
-                <tr key={item.id_registro}>
-                    <td><center>{item.id_registro}</center></td>
-                    <td><center>{item.nome}</center></td>
-                    <td><center>{item.cognome}</center></td>
+                <tr key={item.id}>
+                    <td><center>{item.id}</center></td>
                     <td><center>{item.email}</center></td>
+                    <td><center>{item.orari_inizio}</center></td>
                 </tr>
               )
             });
+
+            // this.state.loginf.map((item) => {
+            //     return (
+            //         <tr>
+            //             <td><center>{item.orari_fine}</center></td>    
+            //         </tr>
+            //     )
+            // });
         }
 
         return(
@@ -50,9 +58,8 @@ class Vista extends Component{
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nome</th>
-                            <th>Cognome</th>
                             <th>Email</th>
+                            <th>Entrata</th>
                         </tr>
                     </thead>
                     <tbody>

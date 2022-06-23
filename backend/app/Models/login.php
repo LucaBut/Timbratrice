@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
@@ -12,11 +13,12 @@ use Illuminate\Notifications\Notifiable;
 class login extends Authenticatable
 {
     use HasFactory;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $table = 'login';
     protected $fillable = [
         'email', 
         'orari_inizio',
-        'orari_fine',
     ];
+    const CREATED_AT = 'orari_inizio';
+    const UPDATED_AT = 'orari_inizio';
 }

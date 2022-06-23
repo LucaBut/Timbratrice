@@ -11,19 +11,15 @@ function Navbar() {
 
   const logoutSubmit = (e) => {
     e.preventDefault();
-    localStorage.clear();
-    window.location = '/';
-    axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
-      axios.post('http://127.0.0.1:8000/api/logout').then(res => {
-        if (res.data.status === 200) {
-          localStorage.removeItem('auth_token', res.data.token);
-          localStorage.removeItem('auth_nome', res.data.username);
-          swal("Success", res.data.message, "success").then(function () {
-            window.location = '/';
-          });
-          history.push('/');
-        }
-      });
+    axios.post('http://127.0.0.1:8000/api/logout').then(res => {
+      if (res.data.status === 200) {
+        localStorage.removeItem('auth_token', res.data.token);
+        localStorage.removeItem('auth_nome', res.data.username);
+        swal("Success", res.data.message, "success").then(function () {
+          window.location = '/';
+        });
+        history.push('/');
+      }
     });
   }
 
@@ -32,10 +28,10 @@ function Navbar() {
     AuthButtons = (
       <Nav>
         <NavMenu className='navbar-nav'>
-          <NavLink to="/" activeStyle>
+          <NavLink to="/">
             <center>Login</center>
           </NavLink>
-          <NavLink to="/register" activeStyle>
+          <NavLink to="/register">
             <center>Registrati</center>
           </NavLink>
         </NavMenu>
@@ -43,9 +39,20 @@ function Navbar() {
     )
   } else {
     AuthButtons = (
-      <NavLink to="/" >
-        <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center>
-      </NavLink>
+      <Nav>
+        <NavMenu>
+          <NavLink to="/home" >
+            <center>Home</center>
+          </NavLink>
+          <NavLink to="/view" >
+            <center>Lista utenti</center>
+          </NavLink>
+          <NavLink to="/" >
+            <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center>
+          </NavLink>
+        </NavMenu>
+      </Nav>
+
     )
   }
 
@@ -54,12 +61,12 @@ function Navbar() {
     <>
       <Nav>
         <NavMenu>
-          <NavLink to="/home" activeStyle>
+          {/* <NavLink to="/home" >
             <center>Home</center>
           </NavLink>
-          <NavLink to="/view" activeStyle>
+          <NavLink to="/view" >
             <center>Lista utenti</center>
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/" >
             {AuthButtons}
           </NavLink>

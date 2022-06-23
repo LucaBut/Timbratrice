@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\user;
+use App\Models\login;
+use App\Models\loginf;
+use App\Models\view;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
+use Laravel\Sanctum\HasApiTokens;
 
 
 class RegisterController extends Controller
@@ -42,9 +49,8 @@ class RegisterController extends Controller
         }
     }
 
-    public function start_day(){
-        $validator = Validator::make($request ->all(), [
-            'timestamp'=>'required',
+    public function start_day(Request $request){
+        $validator = Validator::make($request->all(), [
             'email'=>'required',
         ]);
         if($validator->fails()){
@@ -53,32 +59,75 @@ class RegisterController extends Controller
             ]);
         }else{
             $login = login::create([
-                'timestamp'=>$request->timestamp,
                 'email'=>$request->email,
+                'orari_fine'=>new \DateTime(),
             ]);
                 return response()->json([
                     'status'=>200,
-                    'username'=>$user->email,
+                    'username'=>$login->email,
                     'message'=>'Success',
                 ]);
             }
         }
 
+        public function end_day(Request $request){
+            $validator = Validator::make($request->all(), [
+                'email'=>'required',
+            ]);
+            if($validator->fails()){
+                return response()->json([
+                    'validation_errors'=>$validator->messages(),
+                ]);
+            }else{
+                $login = loginf::create([
+                    'email'=>$request->email,
+                    'orari_fine'=>new \DateTime(),
+                ]);
+                    return response()->json([
+                        'status'=>200,
+                        'username'=>$login->email,
+                        'message'=>'Success',
+                    ]);
+                }
+            }
+
     
 
-    public function logout(){
-        auth()->user()->Tokens()->delete();
+    public function logout(Request $request){
+        if ($request->user()) { 
+            $request->user()->tokens()->delete();
+        }
         return response()->json([
             'status'=>200,
-            'message'=>'Logged out Successfully'
+            'message'=>'Logged out Successfully',
+        ]);
+    }
+
+    public function index() { 
+        return view::make('index', with(new view())->indexData());
+    }
+
+    public function ent(){
+        $login = login::all();
+        return response() -> json([
+            'status'=>200,
+            'login'=>$login,
+        ]);
+    }
+
+    public function usci(){
+        $login = login::all();
+        return response() -> json([
+            'status'=>200,
+            'login'=>$login,
         ]);
     }
 
     public function getUser(){
-        $utenti = user::all();
+        $login = login::all();
         return response() -> json([
             'status'=>200,
-            'utenti'=>$utenti,
+            'utenti'=>$login,
         ]);
     }
 

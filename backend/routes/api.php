@@ -14,15 +14,12 @@ Route::post('reg', [RegisterController::class, 'store']);
 
 Route::post('login', [RegisterController::class, 'login']);
 
-Route::post('start', [RegisterController::class], 'start_day');
+Route::post('start', [RegisterController::class, 'start_day']);
 
-Route::middleware(['auth:sanctum'])->group(function() {
-    Route::post('logout', [RegisterController::class, 'logout']);
-});
+Route::post('fine', [RegisterController::class, 'end_day']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::post('logout', [RegisterController::class, 'logout']);
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-// Broadcast::routes(['middleware' => ['auth:sanctum']]);
-
