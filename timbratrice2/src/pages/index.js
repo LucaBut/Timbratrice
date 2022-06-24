@@ -32,7 +32,7 @@ function Home() {
                 // start.email = localStorage.getItem('auth_nome', res.data.username);
                 localStorage.clear();
                 console.log(start.email);
-                swal("Buon lavoro e vaffanculo", res.data.message, "success").then(function () {
+                swal("Buon lavoro", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
             } else {

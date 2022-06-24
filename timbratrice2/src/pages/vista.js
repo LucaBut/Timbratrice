@@ -10,6 +10,8 @@ class Vista extends Component{
 
     state = {
         login: [],
+        loginf: [],
+        user: [],
         loading: true,
     }
 
@@ -20,36 +22,32 @@ class Vista extends Component{
         if(res.data.status === 200){
             this.setState({
                 login: res.data.login,
+                loginf: res.data.loginf,
+                user: res.data.user,
                 loading: false,
             })
         }
     }
 
-
     render(){
 
         var utenti_HTMLTABLE = "";
         if(this.state.loading){
-            utenti_HTMLTABLE = <tr><td colSpan="7"><h2>Loading...</h2></td></tr>
+            utenti_HTMLTABLE = <tr><td colSpan="6"><h2>Loading...</h2></td></tr>
         }else{
             utenti_HTMLTABLE = 
             this.state.login.map((item) => {
               return  (
                 <tr key={item.id}>
                     <td><center>{item.id}</center></td>
+                    <td><center>{item.nome}</center></td>
+                    <td><center>{item.cognome}</center></td>
                     <td><center>{item.email}</center></td>
                     <td><center>{item.orari_inizio}</center></td>
-                </tr>
+                    <td><center>{item.orari_fine}</center></td>
+                </tr> 
               )
             });
-
-            // this.state.loginf.map((item) => {
-            //     return (
-            //         <tr>
-            //             <td><center>{item.orari_fine}</center></td>    
-            //         </tr>
-            //     )
-            // });
         }
 
         return(
@@ -58,11 +56,14 @@ class Vista extends Component{
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Nome</th>
+                            <th>Cognome</th>
                             <th>Email</th>
                             <th>Entrata</th>
+                            <th>Uscita</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody> 
                         {utenti_HTMLTABLE}
                     </tbody>
                 </Table>

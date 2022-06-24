@@ -37,6 +37,19 @@ function Navbar() {
         </NavMenu>
       </Nav>
     )
+  } else if (localStorage.getItem('auth_nome') === 'admin@gmail.com') {
+    AuthButtons = (
+      <Nav>
+        <NavMenu>
+          <NavLink to="/view">
+            <center>Lista Utenti</center>
+          </NavLink>
+          <NavLink to="/" >
+            <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center>
+          </NavLink>
+        </NavMenu>
+      </Nav>
+    )
   } else {
     AuthButtons = (
       <Nav>
@@ -44,10 +57,10 @@ function Navbar() {
           <NavLink to="/home" >
             <center>Home</center>
           </NavLink>
-          <NavLink to="/view" >
+          {/* <NavLink to="/view" >
             <center>Lista utenti</center>
-          </NavLink>
-          <NavLink to="/" >
+          </NavLink> */}
+          <NavLink >
             <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center>
           </NavLink>
         </NavMenu>

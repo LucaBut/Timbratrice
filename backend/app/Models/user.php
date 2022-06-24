@@ -17,10 +17,10 @@ class user extends Authenticatable
     public $timestamps = false;
     protected $table = 'registro';
     protected $fillable = [
-        'id_registro',
         'nome', 
         'cognome',
         'email',
-        'password'
+        'password',
+        'id_login'
     ];
 }

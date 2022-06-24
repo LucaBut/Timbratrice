@@ -9,6 +9,7 @@ use App\Models\user;
 use App\Models\login;
 use App\Models\loginf;
 use App\Models\view;
+use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Sanctum\PersonalAccessToken;
@@ -60,7 +61,7 @@ class RegisterController extends Controller
         }else{
             $login = login::create([
                 'email'=>$request->email,
-                'orari_fine'=>new \DateTime(),
+                'orari_inizio'=>new \DateTime(),
             ]);
                 return response()->json([
                     'status'=>200,
@@ -103,31 +104,26 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function index() { 
-        return view::make('index', with(new view())->indexData());
-    }
-
-    public function ent(){
-        $login = login::all();
-        return response() -> json([
-            'status'=>200,
-            'login'=>$login,
-        ]);
-    }
-
-    public function usci(){
-        $login = login::all();
-        return response() -> json([
-            'status'=>200,
-            'login'=>$login,
-        ]);
-    }
 
     public function getUser(){
-        $login = login::all();
-        return response() -> json([
+        // DB::connection()->enableQueryLog();
+        $login = login::all()->toArray();
+        // $loginf = loginf::select('orari_fine')->get()->toArray();
+        $loginf = loginf::all()->toArray();
+        $user = user::select('registro.nome', 'registro.cognome')
+                    ->join('login', 'login.email', '=', 'registro.email')
+                    // ->where('login.email', 'like', 'concat(\'%\', registro.nome, \'%\')', 'and', 'login.email', 'like', 'concat(\'%\', registro.cognome, \'%\'')
+                    // ->orWhere('login.email', 'like', 'concat(\'%\', registro.cognome, \'%\'')
+                    // ->where(DB::raw('concat(\'%\', registro.nome, \'%\')'), 'like', 'login.email')
+                    ->where('login.email', 'like', '%@gmail.com', 'and', 'login.email', 'like', '%@gmail.com')
+                    ->get()->toArray();
+        // $queries = DB::getQueryLog();
+        // $last_query = end($queries);
+        return response()->json([
             'status'=>200,
-            'utenti'=>$login,
+            'login'=>$login,
+            'loginf'=>$loginf,
+            'user'=>$user,
         ]);
     }
 
