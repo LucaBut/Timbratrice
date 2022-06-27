@@ -5,6 +5,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Table } from "react-bootstrap";
+import Moment from "react-moment";
+import 'moment-timezone';
+
 
 class Vista extends Component{
 
@@ -37,21 +40,20 @@ class Vista extends Component{
         }else{
             utenti_HTMLTABLE = 
             this.state.login.map((item) => {
-              return  (
-                <tr key={item.id}>
-                    <td><center>{item.id}</center></td>
-                    <td><center>{item.nome}</center></td>
-                    <td><center>{item.cognome}</center></td>
-                    <td><center>{item.email}</center></td>
-                    <td><center>{item.orari_inizio}</center></td>
-                    <td><center>{item.orari_fine}</center></td>
-                </tr> 
-              )
+                    return  (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.nome}</td>
+                            <td>{item.cognome}</td>
+                            <td>{item.email}</td>
+                            <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_inizio}</Moment></td>
+                            <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_fine}</Moment></td>
+                        </tr> 
+                      )
             });
         }
 
         return(
-            <div className="utenti">
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -67,7 +69,6 @@ class Vista extends Component{
                         {utenti_HTMLTABLE}
                     </tbody>
                 </Table>
-            </div>
         );
     }
 }

@@ -4,6 +4,9 @@ import "./index.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import Moment from 'react-moment';
+import 'moment-timezone';
+import moment from 'moment-timezone';
 
 function Home() {
 
@@ -73,26 +76,16 @@ function Home() {
     }
 
 
-    var data = new Date();
-    var Hh, Mm, Ss, m, a, dd, b;
-
-    Hh = data.getHours();
-    Mm = data.getMinutes();
-    Ss = data.getSeconds();
-    m = data.getMonth();
-    a = data.getFullYear();
-    dd = data.getDate();
-
     return (
         
             <div className='App'>
-        <form onSubmit={startSubmit}>
+        <form onSubmit={startSubmit} className="form-home">
             <div>
                 <center><h1 className='title'>Benvenuto nell'azienda</h1></center>
                 <button className="b1" onChange={handleDate} value={start.email}>Timbro inizio turno</button>
             </div>
         </form>
-                <h4 className='clock'>{("Sono le ore: " + Hh + ":" + Mm + ":" + Ss + " del giorno: " + dd + "-" + m + "-" + a).toString()}</h4>
+                <Moment interval={1000} format='MMMM Do YYYY, HH:mm:ss' className='clock'></Moment>
         <form onSubmit={endSubmit}>
             <div>
                 <button className="b2" onChange={handleEnd} value={start.email}>Timbro fine turno</button>

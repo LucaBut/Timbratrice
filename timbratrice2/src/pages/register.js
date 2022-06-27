@@ -51,26 +51,28 @@ function Register() {
     return (
         <center>
             <div>
-                <h1><center>Register Page</center></h1>
-                <form onSubmit={registerSubmit}>
-                    <label className='l1'>
+                <form onSubmit={registerSubmit} className="form-reg">
+                    <label className='register-write'>
+                    Register Page
+                    </label>
+                    <label className='l'>
                         Nome:
-                        <input className='i1' type="text" name="nome" onChange={handleInput} value={registerInput.nome} />
+                        <input className='i' type="text" name="nome" onChange={handleInput} value={registerInput.nome} />
                         <span>{registerInput.error_list.nome}</span>
                     </label>
-                    <label className='l2'>
+                    <label className='l'>
                         Cognome:
-                        <input className='i2' type="text" name="cognome" onChange={handleInput} value={registerInput.cognome} />
+                        <input className='i' type="text" name="cognome" onChange={handleInput} value={registerInput.cognome} />
                         <span>{registerInput.error_list.cognome}</span>
                     </label>
-                    <label className='l3'>
+                    <label className='l'>
                         Email:
-                        <input className='i3' type="email" name="email" onChange={handleInput} value={registerInput.email} />
+                        <input className='i' type="email" name="email" onChange={handleInput} value={registerInput.email} />
                         <span>{registerInput.error_list.email}</span>
                     </label>
-                    <label className='l4'>
+                    <label className='l'>
                         Password:
-                        <input className='i4' type="password" name="password" onChange={handleInput} value={registerInput.password} />
+                        <input className='i' type="password" name="password" onChange={handleInput} value={registerInput.password} />
                         <span>{registerInput.error_list.password}</span>
                     </label>
                     <button className='bsub' type='submit'>Submit</button>

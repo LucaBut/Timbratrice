@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
 class login extends Authenticatable
 {
     use HasFactory;
-    public $timestamps = true;
+    public $timestamp = true;
     protected $table = 'login';
     protected $fillable = [
         'email', 

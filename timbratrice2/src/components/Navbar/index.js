@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, } from './NavbarElements'
+import { Nav, NavLink, Bars, NavMenu } from './NavbarElements'
 import "./nav.css";
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -44,8 +44,9 @@ function Navbar() {
           <NavLink to="/view">
             <center>Lista Utenti</center>
           </NavLink>
-          <NavLink to="/" >
-            <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center>
+          <NavLink to="/" onClick={logoutSubmit}>
+            {/* <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center> */}
+            Logout
           </NavLink>
         </NavMenu>
       </Nav>
@@ -60,8 +61,9 @@ function Navbar() {
           {/* <NavLink to="/view" >
             <center>Lista utenti</center>
           </NavLink> */}
-          <NavLink >
-            <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center>
+          <NavLink to="/" onClick={logoutSubmit}>
+            {/* <center><button type="button" onClick={logoutSubmit} className="nav-btn">Logout</button></center> */}
+            <center>Logout</center>
           </NavLink>
         </NavMenu>
       </Nav>
@@ -80,9 +82,7 @@ function Navbar() {
           <NavLink to="/view" >
             <center>Lista utenti</center>
           </NavLink> */}
-          <NavLink to="/" >
             {AuthButtons}
-          </NavLink>
         </NavMenu>
       </Nav>
     </>

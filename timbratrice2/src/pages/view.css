@@ -5,5 +5,23 @@ h1{
 
 Table {
     background-color: rgb(255, 255, 255);
+    width: 100%;
+    margin-top: 40%;
+    border-collapse: collapse;
 }
 
+td{
+    text-align: left;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+thead{
+    background-color: black;
+    color:#ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}

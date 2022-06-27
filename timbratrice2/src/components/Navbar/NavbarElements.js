@@ -10,10 +10,10 @@ export const Nav = styled.nav`
   padding-bottom: 0;
   height: 70px;
   align-items: center;
-  position:absolute;
+  position: absolute;
   top:0px;
   float: right;
-  width: 300px;
+  width: 400px;
 `;
 
 export const NavLink = styled(Link)`

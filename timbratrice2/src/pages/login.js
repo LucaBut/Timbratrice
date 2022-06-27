@@ -32,7 +32,11 @@ function SignUp() {
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('auth_nome', res.data.username);
                     swal("Success", res.data.message, "success").then(function () {
-                        window.location = '/home';
+                        if(localStorage.getItem('auth_nome') === 'admin@gmail.com'){
+                            window.location='/view';
+                        }else{
+                            window.location = '/home';
+                        }
                     });
                     history.push('/home');
                 } else if (res.data.status === 401) {
@@ -47,14 +51,15 @@ function SignUp() {
     return (
         <center>
             <div>
-                <h1><center>Login Page</center></h1>
-                <form onSubmit={loginSubmit}>
-                    <label className='l1'>
+                <form onSubmit={loginSubmit} className="form-login">
+                    <label className='Login-write'><center>Login Page</center></label>
+                    {/* <h1><center>Login Page</center></h1> */}
+                    <label className='l'>
                         Email:
                         <input className='i1' type="email" name='email' onChange={handleInput} value={loginInput.email} required />
                         <span>{loginInput.error_list.email}</span>
                     </label>
-                    <label className='l2'>
+                    <label className='l'>
                         Password:
                         <input className='i2' type="password" name='password' onChange={handleInput} value={loginInput.password} required />
                         <span>{loginInput.error_list.password}</span>
