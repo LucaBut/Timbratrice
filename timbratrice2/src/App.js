@@ -6,6 +6,7 @@ import Home from './pages/index';
 import SignUp from './pages/login';
 import Register from './pages/register';
 import Vista from './pages/vista';
+import Admin from './pages/admin';
 import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -21,6 +22,7 @@ function App() {
 				<Route path='/home' element={<Home />} />
 				<Route path='/register' element={<Register />} />
 				<Route path='/view' element={<Vista />} />
+				<Route path='/admin' element={<Admin />} />
 			</Routes>
 		</Router>
 	);

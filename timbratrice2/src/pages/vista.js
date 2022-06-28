@@ -7,9 +7,11 @@ import Navbar from "../components/Navbar";
 import { Table } from "react-bootstrap";
 import Moment from "react-moment";
 import 'moment-timezone';
+import moment from "moment";
+import swal from "sweetalert";
 
 
-class Vista extends Component{
+class Vista extends Component {
 
     state = {
         login: [],
@@ -18,57 +20,67 @@ class Vista extends Component{
         loading: true,
     }
 
-   async componentDidMount(){
-        const res = await axios.get('http://127.0.0.1:8000/api/utenti');
+        async componentDidMount() {
+        if(localStorage.getItem('auth_nome') === 'admin@gmail.com'){
+            const res = await axios.get('http://127.0.0.1:8000/api/utenti');
         // console.log(res.data);
-
-        if(res.data.status === 200){
+            if (res.data.status === 200) {
             this.setState({
                 login: res.data.login,
                 loginf: res.data.loginf,
                 user: res.data.user,
                 loading: false,
             })
+        }}else{
+            swal({
+                icon: "warning",
+                text: "Unauthorized"
+            }).then(function() {
+                window.location='/home';
+        });
         }
     }
 
-    render(){
+
+    render() {
 
         var utenti_HTMLTABLE = "";
-        if(this.state.loading){
+        if (this.state.loading) {
             utenti_HTMLTABLE = <tr><td colSpan="6"><h2>Loading...</h2></td></tr>
-        }else{
-            utenti_HTMLTABLE = 
-            this.state.login.map((item) => {
-                    return  (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.nome}</td>
-                            <td>{item.cognome}</td>
-                            <td>{item.email}</td>
-                            <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_inizio}</Moment></td>
-                            <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_fine}</Moment></td>
-                        </tr> 
-                      )
-            });
+        } else {
+            utenti_HTMLTABLE =
+                this.state.login.map((item) => {
+                        return (
+                            <tr key={item.id} className='tr-item'>
+                                <td>{item.id}</td>
+                                <td>{item.nome}</td>
+                                <td>{item.cognome}</td>
+                                <td>{item.email}</td>
+                                <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_inizio}</Moment></td>
+                                <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_fine}</Moment></td>
+                            </tr>
+                        )
+                });
         }
 
-        return(
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Cognome</th>
-                            <th>Email</th>
-                            <th>Entrata</th>
-                            <th>Uscita</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        {utenti_HTMLTABLE}
-                    </tbody>
-                </Table>
+        return (
+            <>
+            <Table striped bordered hover>
+                <thead className="thead">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Email</th>
+                        <th>Entrata</th>
+                        <th>Uscita</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {utenti_HTMLTABLE}
+                </tbody>
+            </Table>
+            </>
         );
     }
 }

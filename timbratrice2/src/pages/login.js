@@ -65,7 +65,7 @@ function SignUp() {
                         <span>{loginInput.error_list.password}</span>
                     </label>
                     <button className='bsub' type='submit'>Submit</button>
-                    <h5>If you haven't registred yet, you can register <a href='/register'>here</a></h5>
+                    <h5>If you haven't registred yet, you can register <a href='/register' className='reg-link'>here</a></h5>
                 </form>
             </div>
         </center>
