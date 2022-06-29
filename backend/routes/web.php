@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\API\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/view', 'userController@getUser');
 
 Auth::routes();
+
+Route::get('/', [RegisterController::class, 'sendMail']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

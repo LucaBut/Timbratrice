@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\HasApiTokens;
+use App\Mail\SignUp;
+use Illuminate\Support\Facades\Mail;
 
 
 class RegisterController extends Controller
@@ -161,4 +163,12 @@ class RegisterController extends Controller
             'message'=>'Saved to database successfully',
         ]);
     }
+
+    function sendMail(){
+        $user = user::select('nome', 'cognome', 'password')->get();
+        Mail::to('fake@mail.com')->send(new SignUp($user));
+        return view('welcome');
+    }
+
+
 }
