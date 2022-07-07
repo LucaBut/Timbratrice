@@ -68,3 +68,8 @@
     justify-content: space-between;
     margin-bottom: 15px;
 }
+
+.div-reg-user {
+    display: flex;
+    margin-top: 50%;
+}

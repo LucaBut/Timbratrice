@@ -91,7 +91,7 @@ function Admin() {
         newTextArea.remove()
         swal({
             icon: 'success',
-            text: 'copy success'
+            text: 'Copy success'
         })
     }
 
@@ -101,7 +101,7 @@ function Admin() {
 
 
     return (
-        <div>
+        <div className="div-reg-user">
             <form onSubmit={registerSubmit} className="form-user">
                 <label className='user-write'>
                     <center>Add Users</center>

@@ -29,12 +29,9 @@ function Home() {
         }
 
         
-        console.log(start.email);
         axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
             if (res.data.status === 200) {
-                // start.email = localStorage.getItem('auth_nome', res.data.username);
                 localStorage.clear();
-                console.log(start.email);
                 swal("Buon lavoro", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
@@ -81,7 +78,7 @@ function Home() {
             <div className='App'>
         <form onSubmit={startSubmit} className="form-home">
             <div>
-                <center><h1 className='title'>Benvenuto nell'azienda</h1></center>
+                <h1 className='title'>Benvenuto nell'azienda</h1>
                 <button className="b1" onChange={handleDate} value={start.email}>Timbro inizio turno</button>
             </div>
         </form>

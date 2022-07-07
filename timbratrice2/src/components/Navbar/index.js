@@ -95,7 +95,7 @@ function Navbar() {
     AuthButtons = (
       <ul className='nav-bar-bar'>
         <li><a href='/view'>Lista Utenti</a></li>
-        <li><a onClick={logoutSubmit}>Logout</a></li>
+        <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
         {/* <li htmlFor="search" className='search-li'>
                 Search users:
           <input className="search" type="text" onChange={handleSearch} />
@@ -118,7 +118,7 @@ function Navbar() {
     AuthButtons = (
       <ul className='nav-bar-bar'>
         <li><a href='/home'>Home</a></li>
-        <li><a onClick={logoutSubmit}>Logout</a></li>
+        <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
       </ul>
       // <Nav>
       //   <NavMenu>

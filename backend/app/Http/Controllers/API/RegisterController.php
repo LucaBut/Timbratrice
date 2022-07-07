@@ -17,6 +17,7 @@ use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\HasApiTokens;
 use App\Mail\SignUp;
 use Illuminate\Support\Facades\Mail;
+use App\resources\views\SignUpView;
 
 
 class RegisterController extends Controller
@@ -142,11 +143,17 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
+            // $user = user::create([
+            //     'nome'=>$request->nome,
+            //     'cognome'=>$request->cognome,
+            //     'email'=>$request->email,
+            //     'password'=>Hash::make($request->password),
+            // ]);
             $user = user::create([
-                'nome'=>$request->nome,
-                'cognome'=>$request->cognome,
-                'email'=>$request->email,
-                'password'=>Hash::make($request->password),
+                'nome'=>$request['nome'],
+                'cognome'=>$request['cognome'],
+                'email'=>$request['email'],
+                'password'=>Hash::make($request['password']),
             ]);
 
             $token = $user->createToken($user->email.'_token')->plainTextToken;
@@ -156,19 +163,28 @@ class RegisterController extends Controller
                 'token'=>$token,
                 'message'=>'Registred Successfully',
             ]);
+
+            return $user;
         }
 
-        return response() -> json([
+        return response()->json([
             'status'=>200,
             'message'=>'Saved to database successfully',
         ]);
+
+        if($user){
+            Mail::to($request->email)->send(new SignUp($user));
+            return response()->json([
+                'status'=>200,
+                'message'=>'Thank you'
+            ]);
+        }
     }
 
     function sendMail(){
-        $user = user::select('nome', 'cognome', 'password')->get();
-        Mail::to('fake@mail.com')->send(new SignUp($user));
+        $name = 'Jhon';
+        Mail::to('fake@mail.com')->send(new SignUp($name));
         return view('welcome');
     }
-
 
 }
