@@ -73,3 +73,10 @@
     display: flex;
     margin-top: 50%;
 }
+
+.generator-form {
+    display: flex;
+    position: absolute;
+    margin-top: 350px;
+    padding-left: 30px;
+}

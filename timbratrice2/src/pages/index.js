@@ -1,12 +1,9 @@
-// import React from 'react';
 import React, { useState, useEffect, Component } from 'react';
 import "./index.css";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import moment from 'moment-timezone';
 
 function Home() {
 

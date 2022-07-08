@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import "./view.css";
 import axios from "axios";
-import { Table } from "react-bootstrap";
 import Moment from "react-moment";
 import 'moment-timezone';
 import swal from "sweetalert";
-
 
 class Vista extends Component {
 
@@ -15,7 +13,7 @@ class Vista extends Component {
         user: [],
         loading: true,
     }
-
+ 
         async componentDidMount() {
         if(localStorage.getItem('auth_nome') === 'admin@gmail.com'){
             const res = await axios.get('http://127.0.0.1:8000/api/utenti');
@@ -58,7 +56,7 @@ class Vista extends Component {
 
         return (
             <>
-            <Table striped bordered hover>
+            <table>
                 <thead className="thead">
                     <tr>
                         <th>ID</th>
@@ -70,7 +68,7 @@ class Vista extends Component {
                 <tbody>
                     {utenti_HTMLTABLE}
                 </tbody>
-            </Table>
+            </table>
             </>
         );
     }

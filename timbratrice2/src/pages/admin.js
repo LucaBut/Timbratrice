@@ -7,6 +7,15 @@ import { numbers, uppercase, lowercase, symbols } from "./character";
 
 function Admin() {
 
+    if(localStorage.getItem('auth_nome') !== 'admin@gmail.com'){
+        swal({
+            text: 'Unauthorized',
+            icon: 'warning'
+        }).then (function(){
+            window.location = '/home'
+        })
+    }
+
     const history = useNavigate();
 
     const [registerInput, setRegister] = useState({
@@ -32,7 +41,7 @@ function Admin() {
         }
 
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
-            axios.post('http://127.0.0.1:8000/api/reg', data).then(res => {
+            axios.post('http://127.0.0.1:8000/api/reg-admin', data).then(res => {
                 if (res.data.status === 200) {
                     swal("Success", res.data.message, "success");
                 } else {
@@ -127,13 +136,15 @@ function Admin() {
                 <span>{registerInput.error_list.password}</span>
             </label>
             <center><button className='bsub' type='submit'>Submit</button></center>
+            </form>
+            <form className="generator-form">
                 <center>
                     <div>
                         <div className="generator">
                             <h4 className="generator-header">Password Generator</h4>
                             <div className="generator_password">
                                 <h3>{passwordG}</h3>
-                                <button onClick={handleCopyPassword} className="copy_btn">
+                                <button type="button" onClick={handleCopyPassword} className="copy_btn">
                                     <i className="far fa-clipboard"></i>
                                 </button>
                             </div>
@@ -163,7 +174,7 @@ function Admin() {
                             <input checked={includeSymbols} onChange={(e) => setIncludeSymbols(e.target.value)} type="checkbox" id="include-symbols" name="include-symbols" max="20" min="8" />
                             </div>
 
-                            <button onClick={handleGeneratePassword} className="generator-btn">Generate password</button>
+                            <button type="button" onClick={handleGeneratePassword} className="generator-btn">Generate password</button>
                         </div>
                     </div>
                 </center>

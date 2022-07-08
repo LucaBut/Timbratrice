@@ -12,6 +12,8 @@ Route::get('utenti', [RegisterController::class, 'getUser']);
 
 Route::post('reg', [RegisterController::class, 'store']);
 
+Route::post('reg-admin', [RegisterController::class, 'storeAdmin']);
+
 Route::post('login', [RegisterController::class, 'login']);
 
 Route::post('start', [RegisterController::class, 'start_day']);

@@ -10,14 +10,15 @@ use App\Models\login;
 use App\Models\loginf;
 use App\Models\view;
 use DB;
+use App\Mail\SignUp;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\HasApiTokens;
-use App\Mail\SignUp;
 use Illuminate\Support\Facades\Mail;
 use App\resources\views\SignUpView;
+use App\Notifications\WelcomeEmailNotification;
 
 
 class RegisterController extends Controller
@@ -149,12 +150,13 @@ class RegisterController extends Controller
             //     'email'=>$request->email,
             //     'password'=>Hash::make($request->password),
             // ]);
-            $user = user::create([
+            $data = [
                 'nome'=>$request['nome'],
                 'cognome'=>$request['cognome'],
                 'email'=>$request['email'],
                 'password'=>Hash::make($request['password']),
-            ]);
+            ];
+            $user = user::create($data);
 
             $token = $user->createToken($user->email.'_token')->plainTextToken;
             return response()->json([
@@ -167,24 +169,80 @@ class RegisterController extends Controller
             return $user;
         }
 
+        
+        return $data;
+
+
         return response()->json([
             'status'=>200,
             'message'=>'Saved to database successfully',
         ]);
 
-        if($user){
-            Mail::to($request->email)->send(new SignUp($user));
+        // $user->notify(new WelcomeEmailNotification());
+        // return $user;
+
+    }
+
+
+    public function storeAdmin(Request $request){
+        $validator = Validator::make($request->all(), [
+            'nome'=> 'required',
+            'cognome'=> 'required',
+            'email'=>'required|email',
+            'password'=>'required|min:8',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }else{
+            // $user = user::create([
+            //     'nome'=>$request->nome,
+            //     'cognome'=>$request->cognome,
+            //     'email'=>$request->email,
+            //     'password'=>Hash::make($request->password),
+            // ]);
+            $data = [
+                'nome'=>$request['nome'],
+                'cognome'=>$request['cognome'],
+                'email'=>$request['email'],
+                'password'=>Hash::make($request['password']),
+            ];
+
+            $user = user::create($data);
+
+            $token = $user->createToken($user->email.'_token')->plainTextToken;
+            Mail::to($user->email)->send(new SignUp($data));
+            
             return response()->json([
                 'status'=>200,
-                'message'=>'Thank you'
+                'username'=>$user->email,
+                'token'=>$token,
+                'message'=>'Registred Successfully',
             ]);
+
+            return $user;
         }
+
+        
+        return $data;
+
+
+        return response()->json([
+            'status'=>200,
+            'message'=>'Saved to database successfully',
+        ]);
+
+        // $user->notify(new WelcomeEmailNotification());
+        // return $user;
+
     }
 
-    function sendMail(){
-        $name = 'Jhon';
-        Mail::to('fake@mail.com')->send(new SignUp($name));
-        return view('welcome');
-    }
-
+    // function sendMail(){
+    //     $data = user::select('Nome')
+    //                 ->limit('1')->get();
+    //     Mail::to('fake@mail.com')->send(new SignUp($data));
+    //     return view('welcome');
+    // }
 }

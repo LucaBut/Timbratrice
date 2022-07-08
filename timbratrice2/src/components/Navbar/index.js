@@ -7,17 +7,17 @@ import swal from 'sweetalert';
 
 function Navbar() {
 
-    // const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('');
 
-    // const handleSearch = (event) => {
-    //     setState(event.taget.value);
-    // }
+  const handleSearch = (event) => {
+    setSearch(event.taget.value);
+  }
 
-    // const data = {
-    //   nodes: nodes.filter((item) => 
-    //   item.name.includes(search)
-    //   ),
-    // };
+  // const data = {
+  //   search.filter((item) => {}
+  //   item.name.includes(search)
+  //   ),
+  // };
 
   const history = useNavigate();
 
@@ -82,7 +82,7 @@ function Navbar() {
 
   //   )
   // }
-  
+
   var AuthButtons = '';
   if (!localStorage.getItem('auth_token')) {
     AuthButtons = (
@@ -96,12 +96,9 @@ function Navbar() {
       <ul className='nav-bar-bar'>
         <li><a href='/view'>Lista Utenti</a></li>
         <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
-        {/* <li htmlFor="search" className='search-li'>
-                Search users:
-          <input className="search" type="text" onChange={handleSearch} />
-      </li> */}
         <li><a href='/admin'>Dashboard</a></li>
       </ul>
+
       // <Nav>
       //   <NavMenu>
       //     <NavLink to="/view">
@@ -138,14 +135,34 @@ function Navbar() {
     )
   }
 
+
+
+
+  const pathname = window.location.pathname;
+  if (pathname === "/view") {
+    var sbar = '';
+    sbar = (
+      <ul>
+        <li><a href='/view'>Lista Utenti</a></li>
+        <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
+        <li><a href='/admin'>Dashboard</a></li>
+        <li htmlFor="search" className='search-li'>
+          Search users:
+          <input placeholder='Search...' className="search" type="text" onChange={handleSearch} />
+        </li>
+      </ul>
+    );
+  }
+
   return (
 
     <>
-    <ul className='nav-bar-bar'>
-      {/* <li><a href='/home'>Home</a></li>
+      <ul className='nav-bar-bar'>
+        {/* <li><a href='/home'>Home</a></li>
       <li><a href='/view'>Lista Utenti</a></li> */}
-      <li>{AuthButtons}</li>
-    </ul>
+        <li>{AuthButtons}</li>
+        <li>{sbar}</li>
+      </ul>
       {/* <Nav>
         <NavMenu>
           <NavLink to="/home" >
