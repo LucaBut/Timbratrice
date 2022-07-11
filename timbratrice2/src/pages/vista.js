@@ -61,8 +61,8 @@ class Vista extends Component {
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
-                        <th>Entrata</th>
-                        <th>Uscita</th>
+                        <th>Start Shift</th>
+                        <th>End Shift</th>
                     </tr>
                 </thead>
                 <tbody>

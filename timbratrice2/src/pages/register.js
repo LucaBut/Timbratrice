@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import "./register.css";
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -54,12 +54,12 @@ function Register() {
                     Register Page
                     </label>
                     <label className='l'>
-                        Nome:
+                        Name:
                         <input className='i' type="text" name="nome" onChange={handleInput} value={registerInput.nome} />
                         <span>{registerInput.error_list.nome}</span>
                     </label>
                     <label className='l'>
-                        Cognome:
+                        Surname:
                         <input className='i' type="text" name="cognome" onChange={handleInput} value={registerInput.cognome} />
                         <span>{registerInput.error_list.cognome}</span>
                     </label>

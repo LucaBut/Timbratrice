@@ -6,11 +6,31 @@ import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
 
+    const [token, setToken] = useState({
+        token: '',
+        error_list: [],
+    })
+
+    const tokenSubmit = (e) => {
+        e.preventDefault();
+        token.token = localStorage.getItem('auth_token');
+        const data = {
+            token: token.token,
+        }
+        axios.post('http://127.0.0.1:8000/api/token', data).then(res => {
+            if(res.data.status !== 200){
+                setToken({ ...token, error_list: res.data.validation_error });
+            }
+        })
+        
+    }
+
     const history = useNavigate();
 
     const [loginInput, setLogin] = useState({
         email: '',
         password: '',
+        token: '',
         error_list: [],
     });
 
@@ -31,6 +51,7 @@ function SignUp() {
                 if (res.data.status === 200) {
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('auth_nome', res.data.username);
+                    
                     swal("Success", res.data.message, "success").then(function () {
                         if(localStorage.getItem('auth_nome') === 'admin@gmail.com'){
                             window.location='/view';
@@ -39,6 +60,7 @@ function SignUp() {
                         }
                     });
                     history.push('/home');
+         
                 } else if (res.data.status === 401) {
                     swal("Warning", res.data.message, "warning");
                 } else {
@@ -51,6 +73,7 @@ function SignUp() {
     return (
         <center>
             <div>
+            {tokenSubmit}
                 <form onSubmit={loginSubmit} className="form-login">
                     <label className='Login-write'><center>Login Page</center></label>
                     {/* <h1><center>Login Page</center></h1> */}

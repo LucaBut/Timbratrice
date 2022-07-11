@@ -28,7 +28,7 @@ class SignUp extends Mailable
         $this->nome = $data['nome'];
         $this->cognome = $data['cognome'];
         $this->email = $data['email'];
-        $this->password = $data['password'];
+        $this->password = $data['temp_password'];
     }
 
     /**

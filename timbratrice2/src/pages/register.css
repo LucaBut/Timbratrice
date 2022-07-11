@@ -8,6 +8,7 @@
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 20px;
 }
 
 .form-reg {
@@ -20,7 +21,6 @@
 .register-write {
     font-size: 50px;
     margin-bottom: 200px;
-    /* align-items: center; */
 }
 
 .l {

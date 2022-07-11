@@ -7,6 +7,27 @@ import 'moment-timezone';
 
 function Home() {
 
+    const [token, setToken] = useState({
+        token: '',
+        error_list: [],
+    })
+
+    const tokenSubmit = (e) => {
+        e.preventDefault();
+        token.token = localStorage.getItem('auth_token');
+        const data = {
+            token: token.token,
+        }
+
+        axios.post('http://127.0.0.1:8000/api/token', data).then(res => {
+            if(res.data.status !== 200){
+                setToken({ ...token, error_list: res.data.validation_error });
+            }
+        });
+    }
+
+    
+
     const [start, setStart] = useState({
         email: '',
         error_list: [],
@@ -29,7 +50,7 @@ function Home() {
         axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
             if (res.data.status === 200) {
                 localStorage.clear();
-                swal("Buon lavoro", res.data.message, "success").then(function () {
+                swal("Good Work", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
             } else {
@@ -60,7 +81,7 @@ function Home() {
             if (res.data.status === 200) {
                 console.log(end.email);
                 localStorage.clear();
-                swal("Arrivederci", res.data.message, "success").then(function () {
+                swal("Goodbye", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
             } else {
@@ -75,14 +96,14 @@ function Home() {
             <div className='App'>
         <form onSubmit={startSubmit} className="form-home">
             <div>
-                <h1 className='title'>Benvenuto nell'azienda</h1>
-                <button className="b1" onChange={handleDate} value={start.email}>Timbro inizio turno</button>
+                <h1 className='title'>Welcome to the company</h1>
+                <button className="b1" onChange={handleDate} value={start.email}>Start shift</button>
             </div>
         </form>
                 <Moment interval={1000} format='MMMM Do YYYY, HH:mm:ss' className='clock'></Moment>
         <form onSubmit={endSubmit}>
             <div>
-                <button className="b2" onChange={handleEnd} value={start.email}>Timbro fine turno</button>
+                <button className="b2" onChange={handleEnd} value={start.email}>End shift</button>
             </div>
         </form>
         </div>

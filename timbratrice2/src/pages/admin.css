@@ -1,16 +1,16 @@
 
 .form-user {
+    
     align-items: center;
     background-color: aliceblue;
     border-radius: 20px;
-    height: 800px;
-    width: 400px;
+    height: 400px;
+    margin-top: 0%;
 }
 
 .user-write {
     font-size: 50px;
     margin-bottom: 200px;
-    /* align-items: center; */
 }
 
 .lU {

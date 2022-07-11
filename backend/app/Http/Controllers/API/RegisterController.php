@@ -54,6 +54,11 @@ class RegisterController extends Controller
         }
     }
 
+    public function token(Request $request){
+        $user = login::where('email', '=',  $request->email)
+                    ->update(['token' => $token]);
+    }
+
     public function start_day(Request $request){
         $validator = Validator::make($request->all(), [
             'email'=>'required',
@@ -207,13 +212,16 @@ class RegisterController extends Controller
                 'nome'=>$request['nome'],
                 'cognome'=>$request['cognome'],
                 'email'=>$request['email'],
+                $temp_p = 'temp_password'=>$request['password'],
                 'password'=>Hash::make($request['password']),
             ];
 
             $user = user::create($data);
 
             $token = $user->createToken($user->email.'_token')->plainTextToken;
+            
             Mail::to($user->email)->send(new SignUp($data));
+        
             
             return response()->json([
                 'status'=>200,
@@ -239,10 +247,28 @@ class RegisterController extends Controller
 
     }
 
-    // function sendMail(){
-    //     $data = user::select('Nome')
-    //                 ->limit('1')->get();
-    //     Mail::to('fake@mail.com')->send(new SignUp($data));
-    //     return view('welcome');
-    // }
+    public function changePassword (Request $request){
+        $data = [
+            'email'=>$request['email'],
+            'password'=>Hash::make($request['password']),
+        ];
+        $validator = Validator::make($request->all(), [
+            'email'=>'required',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }else{
+        // $hash = 'password'->Hash::make($data['password']);
+        $user = user::where('email', '=',  $request->email)
+                    ->update(['password' => Hash::make($request->password)]);
+                   
+        return response()->json([
+        'status'=>200,
+        'message'=>'Change Password Successfully',
+        ]);
+    }
+    }
+
 }

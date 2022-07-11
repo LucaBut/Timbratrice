@@ -14,6 +14,10 @@ Route::post('reg', [RegisterController::class, 'store']);
 
 Route::post('reg-admin', [RegisterController::class, 'storeAdmin']);
 
+Route::post('change', [RegisterController::class, 'changePassword']);
+
+Route::post('token', [RegisterController::class, 'token']);
+
 Route::post('login', [RegisterController::class, 'login']);
 
 Route::post('start', [RegisterController::class, 'start_day']);

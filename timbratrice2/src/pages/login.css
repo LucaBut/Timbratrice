@@ -1,26 +1,4 @@
-.bsub {
-    background-color: red;
-    font-size: 20px;
-    border-radius: 20px;
-}
 
-/* .l1 {
-    display: flex;
-    margin-left: 10px;
-}
-
-.l2 {
-    display: flex;
-}
-
-.i1 {
-    float: right;
-    margin-left: 16px;
-}
-
-h1 {
-    text-align: center;
-} */
 
 .form-login {
     align-items: center;
@@ -38,8 +16,6 @@ h1 {
 .l {
     display: flex;
     margin-top: 30px;
-    /* flex-direction: row;
-    justify-content: flex-end; */
     text-align: right;
     align-items: center;
     width: 400px;

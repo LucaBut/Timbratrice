@@ -37,7 +37,7 @@ function Admin() {
             nome: registerInput.nome,
             cognome: registerInput.cognome,
             email: registerInput.email,
-            password: registerInput.password,
+            password: passwordG,
         }
 
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
@@ -52,7 +52,7 @@ function Admin() {
     }
 
     const [passwordG, setPassword] = useState('')
-    const [passwordLenght, setPasswordLenght] = useState(20)
+    const [passwordLenght, setPasswordLenght] = useState(12)
     const [includeUppercase, setIncludeUppercase] = useState(false)
     const [includeLowercase, setIncludeLowercase] = useState(false)
     const [includeNumbers, setIncludeNumbers] = useState(false)
@@ -61,23 +61,25 @@ function Admin() {
     const handleGeneratePassword = (e) => {
         let characterList = ''
         
-        if(includeLowercase){
-            characterList = characterList + lowercase
-        }
+        // if(includeLowercase){
+        //     characterList = characterList + lowercase
+        // }
 
-        if(includeUppercase){
-            characterList = characterList + uppercase
-        }
+        // if(includeUppercase){
+        //     characterList = characterList + uppercase
+        // }
 
-        if(includeNumbers){
-            characterList = characterList + numbers
-        }
+        // if(includeNumbers){
+        //     characterList = characterList + numbers
+        // }
 
-        if(includeSymbols){
-            characterList = characterList + symbols
-        }
+        // if(includeSymbols){
+        //     characterList = characterList + symbols
+        // }
+        characterList = characterList + lowercase + uppercase + numbers + symbols 
 
         setPassword(createPassword(characterList))
+        console.log(setPassword);
     }
 
     const createPassword = (characterList) => {
@@ -116,12 +118,12 @@ function Admin() {
                     <center>Add Users</center>
                 </label>
                 <label className='lU'>
-                    Nome:
+                    Name:
                     <input className='iU' type="text" name="nome" onChange={handleInput} value={registerInput.nome} />
                     <span>{registerInput.error_list.nome}</span>
                 </label>
                 <label className='lU'>
-                    Cognome:
+                    Surname:
                     <input className='iU' type="text" name="cognome" onChange={handleInput} value={registerInput.cognome} />
                     <span>{registerInput.error_list.cognome}</span>
                 </label>
@@ -130,14 +132,14 @@ function Admin() {
                     <input className='iU' type="email" name="email" onChange={handleInput} value={registerInput.email} />
                     <span>{registerInput.error_list.email}</span>
                 </label>
-                <label className='lU'>
-                Password:
-                <input className='iU' type="password" name="password" onChange={handleInput} value={registerInput.password} />
+                {/* <label className='lU'>
+                    Password:
+                <input className='iU' type="password" name="password" value={passwordG} />
                 <span>{registerInput.error_list.password}</span>
-            </label>
-            <center><button className='bsub' type='submit'>Submit</button></center>
+                </label> */}
+            <center><button className='bsub' onClick={handleGeneratePassword} type='submit'>Submit</button></center>
             </form>
-            <form className="generator-form">
+            {/* <form className="generator-form">
                 <center>
                     <div>
                         <div className="generator">
@@ -178,7 +180,7 @@ function Admin() {
                         </div>
                     </div>
                 </center>
-            </form>
+            </form> */}
         </div>
     );
 
