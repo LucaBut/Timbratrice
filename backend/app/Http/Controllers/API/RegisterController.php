@@ -42,8 +42,8 @@ class RegisterController extends Controller
                 ]);
             }
             else{
-                $token = $user->createToken($user->email.'_Token')->plainTextToken;
 
+                $token = $user->createToken($user->email.'_Token')->plainTextToken;
                 return response()->json([
                     'status'=>200,
                     'username'=>$user->email,
@@ -52,11 +52,6 @@ class RegisterController extends Controller
                 ]);
             }
         }
-    }
-
-    public function token(Request $request){
-        $user = login::where('email', '=',  $request->email)
-                    ->update(['token' => $token]);
     }
 
     public function start_day(Request $request){
@@ -81,6 +76,9 @@ class RegisterController extends Controller
         }
 
         public function end_day(Request $request){
+            $data = [
+                'email'=>$request['email'],
+            ];
             $validator = Validator::make($request->all(), [
                 'email'=>'required',
             ]);
@@ -89,17 +87,21 @@ class RegisterController extends Controller
                     'validation_errors'=>$validator->messages(),
                 ]);
             }else{
-                $login = loginf::create([
-                    'email'=>$request->email,
-                    'orari_fine'=>new \DateTime(),
+                $loginf = loginf::where('email', '=',  $request->email)
+                            ->update(['orari_fine' => new \DateTime()]);
+                           
+                return response()->json([
+                'status'=>200,
+                'message'=>'Change Password Successfully',
                 ]);
+            }
+
                     return response()->json([
                         'status'=>200,
                         'username'=>$login->email,
                         'message'=>'Success',
                     ]);
                 }
-            }
 
     
 
@@ -115,24 +117,56 @@ class RegisterController extends Controller
 
 
     public function getUser(){
-        // DB::connection()->enableQueryLog();
         $login = login::all()->toArray();
-        // $loginf = loginf::select('orari_fine')->get()->toArray();
         $loginf = loginf::all()->toArray();
-        $user = user::select('registro.nome', 'registro.cognome')
-                    ->join('login', 'login.email', '=', 'registro.email')
-                    // ->where('login.email', 'like', 'concat(\'%\', registro.nome, \'%\')', 'and', 'login.email', 'like', 'concat(\'%\', registro.cognome, \'%\'')
-                    // ->orWhere('login.email', 'like', 'concat(\'%\', registro.cognome, \'%\'')
-                    // ->where(DB::raw('concat(\'%\', registro.nome, \'%\')'), 'like', 'login.email')
-                    ->where('login.email', 'like', '%@gmail.com', 'and', 'login.email', 'like', '%@gmail.com')
-                    ->get()->toArray();
-        // $queries = DB::getQueryLog();
-        // $last_query = end($queries);
+        // $user = user::select('registro.nome', 'registro.cognome')
+        //             ->join('login', 'login.email', '=', 'registro.email')
+        //             ->where('login.email', 'like', '%@gmail.com', 'and', 'login.email', 'like', '%@gmail.com')
+        //             ->get()->toArray();
         return response()->json([
             'status'=>200,
             'login'=>$login,
             'loginf'=>$loginf,
-            'user'=>$user,
+        ]);
+    }
+
+    // public function tk(Request $request){
+    //     $data = [
+    //         'email'=>$request['email'],
+    //     ];
+    //     $validator = Validator::make($request->all(), [
+    //         'email'=>'required',
+    //     ]);
+    //     return response()->json([
+    //         'status'=>200,
+    //         'email'=>$data,
+    //     ]);
+    // }
+
+    // public function calendar(Request $request){
+    //     $data = [
+    //         'email'=>$request['email'],
+    //     ];
+    //     $login = login::select('email', 'orari_inizio', 'orari_fine')
+    //                     ->where('email', '=', $request->email)->get()->toArray();
+    //     // $login = login::all()->toArray();
+    //     return response()->json([
+    //         'status'=>200,
+    //         'login'=>$login,
+    //     ]);
+    // }
+
+    public function calendar(Request $request){
+        $data = [
+            'email'=>$request['email'],
+        ];
+
+        $login = login::select('email', 'orario_inizio', 'orario_fine')
+                        ->where('email', '=', $request->email);
+        
+        return response()->json([
+            'status'=>200,
+            'email'=>$data,
         ]);
     }
 
@@ -149,12 +183,7 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
-            // $user = user::create([
-            //     'nome'=>$request->nome,
-            //     'cognome'=>$request->cognome,
-            //     'email'=>$request->email,
-            //     'password'=>Hash::make($request->password),
-            // ]);
+
             $data = [
                 'nome'=>$request['nome'],
                 'cognome'=>$request['cognome'],
@@ -183,9 +212,6 @@ class RegisterController extends Controller
             'message'=>'Saved to database successfully',
         ]);
 
-        // $user->notify(new WelcomeEmailNotification());
-        // return $user;
-
     }
 
 
@@ -202,12 +228,7 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
-            // $user = user::create([
-            //     'nome'=>$request->nome,
-            //     'cognome'=>$request->cognome,
-            //     'email'=>$request->email,
-            //     'password'=>Hash::make($request->password),
-            // ]);
+
             $data = [
                 'nome'=>$request['nome'],
                 'cognome'=>$request['cognome'],
@@ -241,10 +262,6 @@ class RegisterController extends Controller
             'status'=>200,
             'message'=>'Saved to database successfully',
         ]);
-
-        // $user->notify(new WelcomeEmailNotification());
-        // return $user;
-
     }
 
     public function changePassword (Request $request){
@@ -260,7 +277,6 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
-        // $hash = 'password'->Hash::make($data['password']);
         $user = user::where('email', '=',  $request->email)
                     ->update(['password' => Hash::make($request->password)]);
                    

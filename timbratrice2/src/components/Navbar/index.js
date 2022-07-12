@@ -115,6 +115,7 @@ function Navbar() {
       <ul className='nav-bar-bar'>
         <li><a href='/home'>Home</a></li>
         <li><a href='/password'>Change Password</a></li>
+        <li><a href='/calendar'>All Shifts</a></li>
         <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
       </ul>
       // <Nav>

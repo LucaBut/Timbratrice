@@ -42,7 +42,8 @@ function Admin() {
 
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
             axios.post('http://127.0.0.1:8000/api/reg-admin', data).then(res => {
-                if (res.data.status === 200) {
+            <h4>Loading...</h4>    
+            if (res.data.status === 200) {
                     swal("Success", res.data.message, "success");
                 } else {
                     setRegister({ ...registerInput, error_list: res.data.validation_errors })
@@ -53,10 +54,6 @@ function Admin() {
 
     const [passwordG, setPassword] = useState('')
     const [passwordLenght, setPasswordLenght] = useState(12)
-    const [includeUppercase, setIncludeUppercase] = useState(false)
-    const [includeLowercase, setIncludeLowercase] = useState(false)
-    const [includeNumbers, setIncludeNumbers] = useState(false)
-    const [includeSymbols, setIncludeSymbols] = useState(false)
 
     const handleGeneratePassword = (e) => {
         let characterList = ''

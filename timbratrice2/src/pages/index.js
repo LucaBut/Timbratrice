@@ -5,28 +5,8 @@ import swal from 'sweetalert';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
+
 function Home() {
-
-    const [token, setToken] = useState({
-        token: '',
-        error_list: [],
-    })
-
-    const tokenSubmit = (e) => {
-        e.preventDefault();
-        token.token = localStorage.getItem('auth_token');
-        const data = {
-            token: token.token,
-        }
-
-        axios.post('http://127.0.0.1:8000/api/token', data).then(res => {
-            if(res.data.status !== 200){
-                setToken({ ...token, error_list: res.data.validation_error });
-            }
-        });
-    }
-
-    
 
     const [start, setStart] = useState({
         email: '',

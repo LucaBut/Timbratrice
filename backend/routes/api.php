@@ -16,7 +16,9 @@ Route::post('reg-admin', [RegisterController::class, 'storeAdmin']);
 
 Route::post('change', [RegisterController::class, 'changePassword']);
 
-Route::post('token', [RegisterController::class, 'token']);
+Route::get('calendar', [RegisterController::class, 'calendar']);
+
+// Route::post('tk', [RegisterController::class, 'tk']);
 
 Route::post('login', [RegisterController::class, 'login']);
 

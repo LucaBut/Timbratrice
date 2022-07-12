@@ -19,5 +19,7 @@ class VerifyCsrfToken extends Middleware
         '/api/fine',
         '/api/reg-admin',
         '/api/change',
+        '/api/calendario',
+        '/api/tk',
     ];
 }
