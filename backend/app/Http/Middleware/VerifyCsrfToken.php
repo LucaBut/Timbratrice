@@ -21,5 +21,7 @@ class VerifyCsrfToken extends Middleware
         '/api/change',
         '/api/calendario',
         '/api/tk',
+        '/api/calendar-start',
+        'api/orario',
     ];
 }

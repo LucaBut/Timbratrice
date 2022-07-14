@@ -8,7 +8,7 @@ import Register from './pages/register';
 import Vista from './pages/vista';
 import Admin from './pages/admin';
 import Change from './pages/changePassword';
-import Calendar from './pages/calendar';
+import Calendario from './pages/calendar';
 import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -27,7 +27,7 @@ function App() {
 				<Route path='/view' element={<Vista />} />
 				<Route path='/admin' element={<Admin />} />
 				<Route path='/password' element={<Change />} />
-				<Route path='/calendar' element={<Calendar />} />
+				<Route path='/calendar' element={<Calendario />} />
 			</Routes>
 		</Router>
 	);

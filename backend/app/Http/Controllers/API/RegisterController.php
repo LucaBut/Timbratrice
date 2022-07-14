@@ -130,18 +130,34 @@ class RegisterController extends Controller
         ]);
     }
 
-    // public function tk(Request $request){
-    //     $data = [
-    //         'email'=>$request['email'],
-    //     ];
-    //     $validator = Validator::make($request->all(), [
-    //         'email'=>'required',
-    //     ]);
-    //     return response()->json([
-    //         'status'=>200,
-    //         'email'=>$data,
-    //     ]);
-    // }
+    public function calendario(Request $request){
+        $data = [
+            'email'=>$request['email'],
+            'orari_inizio'=>$request['orari_inizio'],
+        ];
+        $validator = Validator::make($request->all(), [
+            'email'=>'required',
+        ]);
+
+        $user = $this->calendar_start($request);
+
+        return response()->json([
+            'status'=>200,
+            'email'=>$data,
+            'user'=>$user,
+        ]);
+    }
+
+    public function orario(Request $request){
+        $data = [
+            'orario'=>$request['orario'],
+        ];
+
+        return response()->json([
+            'status'=>200,
+            'orario'=>$data,
+        ]);
+    }
 
     // public function calendar(Request $request){
     //     $data = [
@@ -156,17 +172,24 @@ class RegisterController extends Controller
     //     ]);
     // }
 
-    public function calendar(Request $request){
-        $data = [
-            'email'=>$request['email'],
-        ];
+    public function calendar_start(Request $request){
+        // $data = [
+        //     'email'=>$request['email'],
+        // ];
+        // $emailAndDate = new RegisterController();
+        // $emailAndDate = $this->calendario($request);
 
-        $login = login::select('email', 'orario_inizio', 'orario_fine')
-                        ->where('email', '=', $request->email);
+        // $login = login::select('email', 'orario_inizio', 'orario_fine')
+        //                 ->where('email', '=', $request->email);
+        // $login = login::all()->toArray();
+        $login = login::select('ID', 'email', 'orari_inizio', 'orari_fine')
+                        ->where('email', '=', $request->email)->get()->toArray();
         
         return response()->json([
             'status'=>200,
-            'email'=>$data,
+            // 'email'=>$data,
+            'login'=>$login,
+            // 'email'=>$emailAndDate,
         ]);
     }
 

@@ -16,7 +16,11 @@ Route::post('reg-admin', [RegisterController::class, 'storeAdmin']);
 
 Route::post('change', [RegisterController::class, 'changePassword']);
 
-Route::get('calendar', [RegisterController::class, 'calendar']);
+Route::get('calendar-start', [RegisterController::class, 'calendar_start']);
+
+Route::post('calendario', [RegisterController::class, 'calendario']);
+
+Route::post('orario', [RegisterController::class, 'orario']);
 
 // Route::post('tk', [RegisterController::class, 'tk']);
 

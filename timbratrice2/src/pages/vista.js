@@ -13,24 +13,25 @@ class Vista extends Component {
         user: [],
         loading: true,
     }
- 
-        async componentDidMount() {
-        if(localStorage.getItem('auth_nome') === 'admin@gmail.com'){
+
+    async componentDidMount() {
+        if (localStorage.getItem('auth_nome') === 'admin@gmail.com') {
             const res = await axios.get('http://127.0.0.1:8000/api/utenti');
             if (res.data.status === 200) {
-            this.setState({
-                login: res.data.login,
-                loginf: res.data.loginf,
-                user: res.data.user,
-                loading: false,
-            })
-        }}else{
+                this.setState({
+                    login: res.data.login,
+                    loginf: res.data.loginf,
+                    user: res.data.user,
+                    loading: false,
+                })
+            }
+        } else {
             swal({
                 icon: "warning",
                 text: "Unauthorized"
-            }).then(function() {
-                window.location='/home';
-        });
+            }).then(function () {
+                window.location = '/home';
+            });
         }
     }
 
@@ -43,32 +44,32 @@ class Vista extends Component {
         } else {
             utenti_HTMLTABLE =
                 this.state.login.map((item) => {
-                        return (
-                            <tr key={item.id} className='tr-item'>
-                                <td>{item.id}</td>
-                                <td>{item.email}</td>
-                                <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_inizio}</Moment></td>
-                                <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_fine}</Moment></td>
-                            </tr>
-                        )
+                    return (
+                        <tr key={item.id} className='tr-item'>
+                            <td>{item.id}</td>
+                            <td>{item.email}</td>
+                            <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_inizio}</Moment></td>
+                            <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_fine}</Moment></td>
+                        </tr>
+                    )
                 });
         }
 
         return (
             <>
-            <table>
-                <thead className="thead">
-                    <tr>
-                        <th>ID</th>
-                        <th>Email</th>
-                        <th>Start Shift</th>
-                        <th>End Shift</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {utenti_HTMLTABLE}
-                </tbody>
-            </table>
+                <table>
+                    <thead className="thead">
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Start Shift</th>
+                            <th>End Shift</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {utenti_HTMLTABLE}
+                    </tbody>
+                </table>
             </>
         );
     }

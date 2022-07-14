@@ -85,18 +85,22 @@ function Navbar() {
   var AuthButtons = '';
   if (!localStorage.getItem('auth_token')) {
     AuthButtons = (
+      <center>
       <ul className='nav-bar-bar'>
         <li><a href='/'>Login</a></li>
         <li><a href='/register'>SignUp</a></li>
       </ul>
+      </center>
     )
   } else if (localStorage.getItem('auth_nome') === 'admin@gmail.com') {
     AuthButtons = (
+      <center>
       <ul className='nav-bar-bar'>
         <li><a href='/view'>Users log</a></li>
         <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
         <li><a href='/admin'>Add Users</a></li>
       </ul>
+      </center>
 
       // <Nav>
       //   <NavMenu>
@@ -112,12 +116,14 @@ function Navbar() {
     )
   } else {
     AuthButtons = (
+      <center>
       <ul className='nav-bar-bar'>
         <li><a href='/home'>Home</a></li>
         <li><a href='/password'>Change Password</a></li>
-        <li><a href='/calendar'>All Shifts</a></li>
+        <li><a href='/calendar'>Calendar</a></li>
         <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
       </ul>
+      </center>
       // <Nav>
       //   <NavMenu>
       //     <NavLink to="/home" >
@@ -139,21 +145,21 @@ function Navbar() {
 
 
 
-  const pathname = window.location.pathname;
-  if (pathname === "/view") {
-    var sbar = '';
-    sbar = (
-      <ul>
-        <li><a href='/view'>Users log</a></li>
-        <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
-        <li><a href='/admin'>Add Users</a></li>
-        <li htmlFor="search" className='search-li'>
-          Search users:
-          <input placeholder='Search...' className="search" type="text" onChange={handleSearch} />
-        </li>
-      </ul>
-    );
-  }
+  // const pathname = window.location.pathname;
+  // if (pathname === "/view") {
+  //   var sbar = '';
+  //   sbar = (
+  //     <ul>
+  //       <li><a href='/view'>Users log</a></li>
+  //       <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
+  //       <li><a href='/admin'>Add Users</a></li>
+  //       <li htmlFor="search" className='search-li'>
+  //         Search users:
+  //         <input placeholder='Search...' className="search" type="text" onChange={handleSearch} />
+  //       </li>
+  //     </ul>
+  //   );
+  // }
 
   return (
 
@@ -162,7 +168,7 @@ function Navbar() {
         {/* <li><a href='/home'>Home</a></li>
       <li><a href='/view'>Lista Utenti</a></li> */}
         <li>{AuthButtons}</li>
-        <li>{sbar}</li>
+        {/* <li>{sbar}</li> */}
       </ul>
       {/* <Nav>
         <NavMenu>
