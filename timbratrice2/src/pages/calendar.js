@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
 import axios from "axios";
 import './userCalendar.css';
 import Moment from "react-moment";
@@ -7,10 +7,13 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import Time from "./Time";
 import './userCalendar.css';
+import Times from "./Times";
+import context from "./contex";
 
 // const date = new Date();
 
-function Calendario() {
+
+export function Calendario() {
 
     const [date, setDate] = useState(new Date());
     const [showTime, setShowTime] = useState(false);
@@ -21,9 +24,10 @@ function Calendario() {
 
     const dateSubmit = (e) => {
         e.preventDafault();
+        orario = { date };
         const data = {
             orario: orario.orario,
-        } 
+        }
 
         axios.post('http://127.0.0.1:8000/api/orario', data);
     }
@@ -45,11 +49,15 @@ function Calendario() {
             ) : (
                 <p>
                     <span>Default selected date: </span><Moment format="YYYY-MM-DD">{date}</Moment>
-                    {dateSubmit}
+
                 </p>
             )
             }
-            <Time showTime={showTime} date={date} />
+           
+            <context.Provider value={date}>
+                <Time showTime={showTime} date={date} />
+            </context.Provider>
+
         </div>
     )
 }
@@ -57,11 +65,12 @@ function Calendario() {
 // {date.toDateString()}
 
 // export const date = date.toDateString();
-export const ora = (date) => {
-    return(
-        <Moment format="YYYY-MM-DD">{date}</Moment>
-    );
-};
+// export const ora = (date) => {
+//     return(
+//         <Moment format="YYYY-MM-DD">{date}</Moment>
+//     );
+// };
+
 export default Calendario;
 
 

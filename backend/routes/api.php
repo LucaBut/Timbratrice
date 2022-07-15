@@ -20,7 +20,9 @@ Route::get('calendar-start', [RegisterController::class, 'calendar_start']);
 
 Route::post('calendario', [RegisterController::class, 'calendario']);
 
-Route::post('orario', [RegisterController::class, 'orario']);
+Route::post('ora', [RegisterController::class, 'ora']);
+
+// Route::post('orario', [RegisterController::class, 'orario']);
 
 // Route::post('tk', [RegisterController::class, 'tk']);
 
