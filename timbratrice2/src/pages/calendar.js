@@ -15,6 +15,10 @@ import context from "./contex";
 
 export function Calendario() {
 
+    if(!localStorage){
+        window.location = '/';
+    }
+
     const [date, setDate] = useState(new Date());
     const [showTime, setShowTime] = useState(false);
 

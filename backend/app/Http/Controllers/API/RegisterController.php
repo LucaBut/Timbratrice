@@ -148,7 +148,45 @@ class RegisterController extends Controller
         ]);
     }
 
-    // public function orario(Request $request){
+   
+
+    public function calendar_start(Request $request){
+        // $emailAndDate = new RegisterController();
+        // $emailAndDate = $this->calendario($request);
+        
+        
+        // $login = login::selectRaw("ID, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")
+        //                 ->where('email', '=', $request->email)
+        //                 ->having('date_one', '=', 'date_two')->get()->toArray();          
+
+        // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
+        
+//-------------------------------------------------------------------------------------------------------------------//       
+        //Questa
+        $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two")
+                       ->where('email', '=', $request->email)
+                       ->having('date_one', 'like', '2022-07-14%', 'and', 'date_two', 'like', '%')->get()->toArray();
+//-------------------------------------------------------------------------------------------------------------------//        
+        //2022-07-14%
+        // $login = login::select('id', 'email', 'orari_inizio')
+        //                 ->where('email', '=', $request->email)->get()->toArray();
+
+        // $login = login::select($request->date);
+
+        // $login = login::select("SUBSTRING_INDEX($request->orari_inizio, ' ', 1)")->get()->toArray();
+
+        // $login = login::selectRaw("SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")->get()->toArray();
+
+        return response()->json([
+            'status'=>200,
+            // 'email'=>$data,
+            'login'=>$login,
+            // 'user'=>$user,
+            // 'email'=>$emailAndDate,
+        ]);
+    }
+
+     // public function orario(Request $request){
     //     $data = [
     //         'orario'=>$request['orario'],
     //     ];
@@ -171,35 +209,6 @@ class RegisterController extends Controller
     //         'login'=>$login,
     //     ]);
     // }
-
-    public function calendar_start(Request $request){
-        // $emailAndDate = new RegisterController();
-        // $emailAndDate = $this->calendario($request);
-        
-        //Questa
-        // $login = login::selectRaw("ID, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")
-        //                 ->where('email', '=', $request->email)
-        //                 ->having('date_one', '=', 'date_two')->get()->toArray();          
-
-        // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
-
-        $login = login::selectRaw("email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two")
-                       ->where('email', '=', $request->email,)
-                       ->having('date_one', 'like', '2022-07-14%', 'and', 'date_two', 'like', '%')->get()->toArray();
-            
-        // $login = login::select($request->date);
-
-        // $login = login::select("SUBSTRING_INDEX($request->orari_inizio, ' ', 1)")->get()->toArray();
-
-        // $login = login::selectRaw("SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")->get()->toArray();
-
-        return response()->json([
-            'status'=>200,
-            // 'email'=>$data,
-            'login'=>$login,
-            // 'email'=>$emailAndDate,
-        ]);
-    }
 
     public function ora(Request $request){
         $login = login::selectRaw("SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one")->get()->toArray();
