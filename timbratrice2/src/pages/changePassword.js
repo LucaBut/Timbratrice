@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import './changePassword.css';
 import swal from "sweetalert";
@@ -20,7 +20,7 @@ function Change() {
     const changeSubmit = (e) => {
         e.preventDefault();
         const data = {
-            email: localStorage.getItem('auth_nome'),
+            email: sessionStorage.getItem('auth_nome'),
             password: changePassword.password,
         }
 
@@ -45,10 +45,6 @@ function Change() {
                     <label className="change-write">
                         Change Password Page
                     </label>
-                    {/* <label className="l-change">
-                        Your email:
-                        <input className="i-change" type='email' name="email" onChange={handleChange} value={changePassword.email}></input>
-                    </label> */}
                     <span>{changePassword.error_list.email}</span>
                     <label className="l-change">
                         Change your password here:

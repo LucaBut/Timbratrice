@@ -18,13 +18,9 @@ Route::post('change', [RegisterController::class, 'changePassword']);
 
 Route::get('calendar-start/{email}', [RegisterController::class, 'calendar_start']);
 
+Route::post('orario', [RegisterController::class, 'ora']);
+
 Route::post('calendario', [RegisterController::class, 'calendario']);
-
-Route::post('ora', [RegisterController::class, 'ora']);
-
-// Route::post('orario', [RegisterController::class, 'orario']);
-
-// Route::post('tk', [RegisterController::class, 'tk']);
 
 Route::post('login', [RegisterController::class, 'login']);
 

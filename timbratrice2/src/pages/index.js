@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState } from 'react';
 import "./index.css";
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -21,7 +21,7 @@ function Home() {
 
     const startSubmit = (e) => {
         e.preventDefault();
-        start.email = localStorage.getItem('auth_nome');
+        start.email = sessionStorage.getItem('auth_nome');
         const data = {
             email: start.email,
         }
@@ -29,7 +29,7 @@ function Home() {
         
         axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
             if (res.data.status === 200) {
-                localStorage.clear();
+                sessionStorage.clear();
                 swal("Good Work", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
@@ -52,7 +52,7 @@ function Home() {
 
     const endSubmit = (e) => {
         e.preventDefault();
-        end.email = localStorage.getItem('auth_nome');
+        end.email = sessionStorage.getItem('auth_nome');
         const data = {
             email: end.email,
         }
@@ -60,7 +60,7 @@ function Home() {
         axios.post('http://127.0.0.1:8000/api/fine', data).then(res => {
             if (res.data.status === 200) {
                 console.log(end.email);
-                localStorage.clear();
+                sessionStorage.clear();
                 swal("Goodbye", res.data.message, "success").then(function () {
                     window.location = '/';
                 })

@@ -16,12 +16,6 @@ axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.withCredentials = true;
 
 function App() {
-
-	// window.onbeforeunload = function (){
-	// 	localStorage.clear();
-	// 	return '';
-	// }
-
 	return (
 		<Router>
 			<Navbar />

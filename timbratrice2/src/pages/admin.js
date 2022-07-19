@@ -7,7 +7,7 @@ import { numbers, uppercase, lowercase, symbols } from "./character";
 
 function Admin() {
 
-    if(localStorage.getItem('auth_nome') !== 'admin@gmail.com'){
+    if(sessionStorage.getItem('auth_nome') !== 'admin@gmail.com'){
         swal({
             text: 'Unauthorized',
             icon: 'warning'
@@ -57,22 +57,6 @@ function Admin() {
 
     const handleGeneratePassword = (e) => {
         let characterList = ''
-        
-        // if(includeLowercase){
-        //     characterList = characterList + lowercase
-        // }
-
-        // if(includeUppercase){
-        //     characterList = characterList + uppercase
-        // }
-
-        // if(includeNumbers){
-        //     characterList = characterList + numbers
-        // }
-
-        // if(includeSymbols){
-        //     characterList = characterList + symbols
-        // }
         characterList = characterList + lowercase + uppercase + numbers + symbols 
 
         setPassword(createPassword(characterList))
@@ -129,55 +113,8 @@ function Admin() {
                     <input className='iU' type="email" name="email" onChange={handleInput} value={registerInput.email} />
                     <span>{registerInput.error_list.email}</span>
                 </label>
-                {/* <label className='lU'>
-                    Password:
-                <input className='iU' type="password" name="password" value={passwordG} />
-                <span>{registerInput.error_list.password}</span>
-                </label> */}
             <center><button className='bsub' onClick={handleGeneratePassword} type='submit'>Submit</button></center>
             </form>
-            {/* <form className="generator-form">
-                <center>
-                    <div>
-                        <div className="generator">
-                            <h4 className="generator-header">Password Generator</h4>
-                            <div className="generator_password">
-                                <h3>{passwordG}</h3>
-                                <button type="button" onClick={handleCopyPassword} className="copy_btn">
-                                    <i className="far fa-clipboard"></i>
-                                </button>
-                            </div>
-
-                            <div className="form-group">
-                            <label htmlFor="password-strenght">Password lenght</label>
-                            <input defaultValue={passwordLenght} onChange={(e) => setPasswordLenght(e.target.value)} type="number" id="password-strenght" name="password-strenght" max="20" min="8" />
-                            </div>
-
-                            <div className="form-group">
-                            <label htmlFor="uppercase-letters">Include Uppercase letters</label>
-                            <input checked={includeUppercase} onChange={(e) => setIncludeUppercase(e.target.value)} type="checkbox" id="uppercase-letters" name="uppercase-letters" max="20" min="8" />
-                            </div>
-
-                            <div className="form-group">
-                            <label htmlFor="lowercase-letters">Include Lowercase letters</label>
-                            <input checked={includeLowercase} onChange={(e) => setIncludeLowercase(e.target.value)} type="checkbox" id="lowercase-letters" name="lowercase-letters" max="20" min="8" />
-                            </div>
-
-                            <div className="form-group">
-                            <label htmlFor="include-numbers">Include Numbers</label>
-                            <input checked={includeNumbers} onChange={(e) => setIncludeNumbers(e.target.value)} type="checkbox" id="include-numbers" name="include-numbers" max="20" min="8" />
-                            </div>
-
-                            <div className="form-group">
-                            <label htmlFor="include-symbols">Include Symbols</label>
-                            <input checked={includeSymbols} onChange={(e) => setIncludeSymbols(e.target.value)} type="checkbox" id="include-symbols" name="include-symbols" max="20" min="8" />
-                            </div>
-
-                            <button type="button" onClick={handleGeneratePassword} className="generator-btn">Generate password</button>
-                        </div>
-                    </div>
-                </center>
-            </form> */}
         </div>
     );
 

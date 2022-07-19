@@ -119,10 +119,7 @@ class RegisterController extends Controller
     public function getUser(){
         $login = login::all()->toArray();
         $loginf = loginf::all()->toArray();
-        // $user = user::select('registro.nome', 'registro.cognome')
-        //             ->join('login', 'login.email', '=', 'registro.email')
-        //             ->where('login.email', 'like', '%@gmail.com', 'and', 'login.email', 'like', '%@gmail.com')
-        //             ->get()->toArray();
+
         return response()->json([
             'status'=>200,
             'login'=>$login,
@@ -132,22 +129,33 @@ class RegisterController extends Controller
 
     public function calendario(Request $request){
         $data = [
-            'email'=>$request['email'],
-            'orari_inizio'=>$request['orari_inizio'],
+            'date'=>$request['date'],
         ];
-        $validator = Validator::make($request->all(), [
-            'email'=>'required',
-        ]);
 
         $user = $this->calendar_start($request);
 
         return response()->json([
             'status'=>200,
-            'email'=>$data,
+            'date'=>$data,
             'user'=>$user,
         ]);
+        // $validator = Validator::make($request->all(), [
+        //     'email'=>'required',
+        // ]);
+
     }
 
+
+    public function ora(Request $request){
+        $data = [
+            'date'=>$request['date'],
+        ];
+
+        return response()->json([
+            'status'=>200,
+            'date'=>$data,
+        ]);
+    }
    
 
     public function calendar_start(Request $request){
@@ -160,16 +168,15 @@ class RegisterController extends Controller
         //                 ->having('date_one', '=', 'date_two')->get()->toArray();          
 
         // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
-        
 //-------------------------------------------------------------------------------------------------------------------//       
         //Questa
-        $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two")
-                       ->where('email', '=', $request->email)
-                       ->having('date_one', 'like', '2022-07-14%', 'and', 'date_two', 'like', '%')->get()->toArray();
+        // $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX('{$request->date}', ' ', -1) as date_start")
+        //                ->where('email', '=', $request->email)
+        //                ->having('date_one', '=', 'date_start', 'and', 'date_two', 'like', '%')->get()->toArray();
 //-------------------------------------------------------------------------------------------------------------------//        
         //2022-07-14%
-        // $login = login::select('id', 'email', 'orari_inizio')
-        //                 ->where('email', '=', $request->email)->get()->toArray();
+        $login = login::select('email', 'orari_inizio')
+                        ->where('email', '=', $request->email)->get()->toArray();
 
         // $login = login::select($request->date);
 
@@ -186,38 +193,6 @@ class RegisterController extends Controller
         ]);
     }
 
-     // public function orario(Request $request){
-    //     $data = [
-    //         'orario'=>$request['orario'],
-    //     ];
-
-    //     return response()->json([
-    //         'status'=>200,
-    //         'orario'=>$data,
-    //     ]);
-    // }
-
-    // public function calendar(Request $request){
-    //     $data = [
-    //         'email'=>$request['email'],
-    //     ];
-    //     $login = login::select('email', 'orari_inizio', 'orari_fine')
-    //                     ->where('email', '=', $request->email)->get()->toArray();
-    //     // $login = login::all()->toArray();
-    //     return response()->json([
-    //         'status'=>200,
-    //         'login'=>$login,
-    //     ]);
-    // }
-
-    public function ora(Request $request){
-        $login = login::selectRaw("SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one")->get()->toArray();
-
-        return response()->json([
-            'status'=>200,
-            'login'=>$login,
-        ]);
-    }
 
     public function store(Request $request){
         $validator = Validator::make($request->all(), [

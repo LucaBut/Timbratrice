@@ -15,7 +15,7 @@ class Vista extends Component {
     }
 
     async componentDidMount() {
-        if (localStorage.getItem('auth_nome') === 'admin@gmail.com') {
+        if (sessionStorage.getItem('auth_nome') === 'admin@gmail.com') {
             const res = await axios.get('http://127.0.0.1:8000/api/utenti');
             if (res.data.status === 200) {
                 this.setState({

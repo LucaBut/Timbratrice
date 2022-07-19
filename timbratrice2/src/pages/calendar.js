@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import axios from "axios";
 import './userCalendar.css';
 import Moment from "react-moment";
@@ -15,10 +15,6 @@ import context from "./contex";
 
 export function Calendario() {
 
-    if(!localStorage){
-        window.location = '/';
-    }
-
     const [date, setDate] = useState(new Date());
     const [showTime, setShowTime] = useState(false);
 
@@ -26,44 +22,54 @@ export function Calendario() {
         orario: '',
     })
 
-    const dateSubmit = (e) => {
-        e.preventDafault();
-        orario = { date };
-        const data = {
-            orario: orario.orario,
-        }
+    // const dateSubmit = (e) => {
+    //     e.preventDafault();
+    //     orario = { date };
+    //     const data = {
+    //         orario: orario.orario,
+    //     }  
+    // }
+    console.clear();
+    const ora = { date }
+    console.log(ora)
+    useEffect(() => {
 
-        axios.post('http://127.0.0.1:8000/api/orario', data);
-    }
+        axios.post('http://127.0.0.1:8000/api/calendario', ora);
+    })
+
+
 
     return (
-        <div>
+        <center>
             <div>
-                <Calendar className="calendario" onChange={setDate} value={date} onClickDay={() => setShowTime(true)} />
+                <div>
+                    <Calendar className="calendario" onChange={setDate} value={date} onClickDay={() => setShowTime(true)} />
+                </div>
+
+                {date.length > 0 ? (
+                    <p>
+                        <span>Start: </span>
+                        {date[0].toDateString()}
+                        &nbsp;
+                        &nbsp;
+                        <span>End: </span>{date[1].toDateString()}
+                    </p>
+                ) : (
+                    <p>
+                        <span>Default selected date: </span><Moment format="YYYY-MM-DD">{date}</Moment>
+                    </p>
+                )
+                }
+
+                <context.Provider value={date}>
+                    <Time showTime={showTime} date={date} />
+                </context.Provider>
+
             </div>
-
-            {date.length > 0 ? (
-                <p>
-                    <span>Start: </span>
-                    {date[0].toDateString()}
-                    &nbsp;
-                    &nbsp;
-                    <span>End: </span>{date[1].toDateString()}
-                </p>
-            ) : (
-                <p>
-                    <span>Default selected date: </span><Moment format="YYYY-MM-DD">{date}</Moment>
-
-                </p>
-            )
-            }
-           
-            <context.Provider value={date}>
-                <Time showTime={showTime} date={date} />
-            </context.Provider>
-
-        </div>
+        </center>
     )
+
+
 }
 
 // {date.toDateString()}
@@ -81,7 +87,7 @@ export default Calendario;
 
  // state = {
     //     login: [],
-    //     email: localStorage.getItem('auth_nome'),
+    //     email: sessionStorage.getItem('auth_nome'),
     //     loading: true,
     // }
 
@@ -134,7 +140,7 @@ export default Calendario;
     // const userSubmit = (e) => {
     //     e.preventDefault();
     //     const data = {
-    //         email: localStorage.getItem('auth_nome'),
+    //         email: sessionStorage.getItem('auth_nome'),
     //         orario_inizio: user.orario_inizio,
     //         orario_fine: user.orario_fine,
     //     }

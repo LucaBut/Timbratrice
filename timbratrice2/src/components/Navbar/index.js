@@ -24,8 +24,8 @@ function Navbar() {
     e.preventDefault();
     axios.post('http://127.0.0.1:8000/api/logout').then(res => {
       if (res.data.status === 200) {
-        localStorage.removeItem('auth_token', res.data.token);
-        localStorage.removeItem('auth_nome', res.data.username);
+        sessionStorage.removeItem('auth_token', res.data.token);
+        sessionStorage.removeItem('auth_nome', res.data.username);
         swal("Success", res.data.message, "success").then(function () {
           window.location = '/';
         });
@@ -35,7 +35,7 @@ function Navbar() {
   }
 
   // var AuthButtons = '';
-  // if (!localStorage.getItem('auth_token')) {
+  // if (!sessionStorage.getItem('auth_token')) {
   //   AuthButtons = (
   //     <Nav>
   //       <NavMenu className='navbar-nav'>
@@ -48,7 +48,7 @@ function Navbar() {
   //       </NavMenu>
   //     </Nav>
   //   )
-  // } else if (localStorage.getItem('auth_nome') === 'admin@gmail.com') {
+  // } else if (sessionStorage.getItem('auth_nome') === 'admin@gmail.com') {
   //   AuthButtons = (
   //     <Nav>
   //       <NavMenu>
@@ -83,7 +83,7 @@ function Navbar() {
   // }
 
   var AuthButtons = '';
-  if (!localStorage.getItem('auth_token')) {
+  if (!sessionStorage.getItem('auth_token')) {
     AuthButtons = (
       <center>
       <ul className='nav-bar-bar'>
@@ -92,7 +92,7 @@ function Navbar() {
       </ul>
       </center>
     )
-  } else if (localStorage.getItem('auth_nome') === 'admin@gmail.com') {
+  } else if (sessionStorage.getItem('auth_nome') === 'admin@gmail.com') {
     AuthButtons = (
       <center>
       <ul className='nav-bar-bar'>

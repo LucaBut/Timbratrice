@@ -6,28 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
 
-    // const [token, setToken] = useState({
-    //     token: '',
-    //     email: '',
-    //     error_list: [],
-    // })
-
-    // const tokenSubmit = (e) => {
-    //     e.preventDefault();
-    //     token.token = localStorage.getItem('auth_token');
-    //     token.email = localStorage.getItem('auth_nome');
-    //     const data = {
-    //         token: token.token,
-    //         email: token.email,
-    //     }
-    //     axios.post('http://127.0.0.1:8000/api/token', data).then(res => {
-    //         if(res.data.status !== 200){
-    //             setToken({ ...token, error_list: res.data.validation_error });
-    //         }
-    //     })
-        
-    // }
-
     const history = useNavigate();
 
     const [loginInput, setLogin] = useState({
@@ -52,10 +30,10 @@ function SignUp() {
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
             axios.post('http://127.0.0.1:8000/api/login', data).then(res => {
                 if (res.data.status === 200) {
-                    localStorage.setItem('auth_token', res.data.token);
-                    localStorage.setItem('auth_nome', res.data.username);
+                    sessionStorage.setItem('auth_token', res.data.token);
+                    sessionStorage.setItem('auth_nome', res.data.username);
                     swal("Success", res.data.message, "success").then(function () {
-                        if(localStorage.getItem('auth_nome') === 'admin@gmail.com'){
+                        if(sessionStorage.getItem('auth_nome') === 'admin@gmail.com'){
                             window.location='/view';
                         }else{
                             window.location = '/home';
