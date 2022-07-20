@@ -88,7 +88,9 @@ class RegisterController extends Controller
                 ]);
             }else{
                 $loginf = loginf::where('email', '=',  $request->email)
-                            ->update(['orari_fine' => new \DateTime()]);
+                                ->orderBy('id', 'desc')
+                                ->limit(1)
+                                ->update(['orari_fine' => new \DateTime()]);
                            
                 return response()->json([
                 'status'=>200,
@@ -129,7 +131,8 @@ class RegisterController extends Controller
 
     public function calendario(Request $request){
         $data = [
-            'date'=>$request['date'],
+            'ora'=>$request['ora'],
+            'email'=>$request['email'],
         ];
 
         $user = $this->calendar_start($request);
@@ -148,12 +151,13 @@ class RegisterController extends Controller
 
     public function ora(Request $request){
         $data = [
-            'date'=>$request['date'],
+            'ora'=>$request['ora'],
+            // 'email'=>$request['email'],
         ];
 
         return response()->json([
             'status'=>200,
-            'date'=>$data,
+            'ora'=>$data,
         ]);
     }
    
@@ -168,15 +172,18 @@ class RegisterController extends Controller
         //                 ->having('date_one', '=', 'date_two')->get()->toArray();          
 
         // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
+
+        
+
 //-------------------------------------------------------------------------------------------------------------------//       
         //Questa
-        // $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX('{$request->date}', ' ', -1) as date_start")
-        //                ->where('email', '=', $request->email)
-        //                ->having('date_one', '=', 'date_start', 'and', 'date_two', 'like', '%')->get()->toArray();
+        $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_start")
+                       ->where('email', '=', $request->email)
+                       ->having('date_one', 'like', '2022-07-20%', 'and', 'date_two', 'like', '%')->get()->toArray();
 //-------------------------------------------------------------------------------------------------------------------//        
         //2022-07-14%
-        $login = login::select('email', 'orari_inizio')
-                        ->where('email', '=', $request->email)->get()->toArray();
+        // $login = login::select('email', 'orari_inizio')
+        //                 ->where('email', '=', $request->email)->get()->toArray();
 
         // $login = login::select($request->date);
 
@@ -190,6 +197,7 @@ class RegisterController extends Controller
             'login'=>$login,
             // 'user'=>$user,
             // 'email'=>$emailAndDate,
+            // 'ora'=>$data,
         ]);
     }
 

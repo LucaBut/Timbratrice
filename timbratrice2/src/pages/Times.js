@@ -2,6 +2,7 @@ import React, { Component, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Calendar from "react-calendar";
 import Moment from "react-moment";
+import contex from "./contex";
 
 // class Times extends Component {
 
@@ -58,46 +59,70 @@ import Moment from "react-moment";
 
 // }
 
-export default Times;
 
 
-
-function Times(){
+function Times() {
     const [login, setLogin] = useState({
         login: [],
     })
 
+    const date = useContext(contex);
+    // const ora = { date }
+    // console.log(ora)
     const email = sessionStorage.getItem('auth_nome');
 
+    // const data = {
+    //     ora,
+    //     email,
+    // }
+
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then(res => {
-            login = ({
-                login: res.data.login,
-        })
-        })
+        axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then(res => setLogin = (res.data.login))
     })
 
-        login.login.map((item) => {
-            return(
-                <table>
-                <thead className="thead">
-                    <tr>
-                        <th>Email</th>
-                        <th>Start Shift</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr key={item.id} className="tr-item">
-                    <td>{item.email}</td>
-                    <td><Moment format="YYYY-MM-DD">{item.orari_inizio}</Moment></td>
+    // useEffect(function effectFunction() {
+    //     axios.post('http://127.0.0.1:8000/api/calendario', data);
+    //     async function fetchLogin() {
+    //         const res = await axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`);
+    //         const json = await res.json();
+    //         setLogin(json.data)
+    //     } fetchLogin();
+    // }, []);
+
+
+
+
+    var user_HTMLTABLE =
+    login.login.map((item) => {
+        return (
+            <tr key={item.id} className="tr-item">
+                <td>{item.email}</td>
+                <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
+                <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
+            </tr>
+        )
+    })
+
+
+    return (
+        <table>
+            <thead className="thead">
+                <tr>
+                    <th>Email</th>
+                    <th>Start Shift</th>
+                    <th>End Shift</th>
                 </tr>
-                </tbody>
-                </table>
-            )
-        })
+            </thead>
+            <tbody>
+                {user_HTMLTABLE}
+            </tbody>
+        </table>
+    )
+
+
 }
 
-
+export default Times;
 
 
 

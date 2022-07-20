@@ -18,8 +18,8 @@ export function Calendario() {
     const [date, setDate] = useState(new Date());
     const [showTime, setShowTime] = useState(false);
 
-    const [orario, setOrario] = useState({
-        orario: '',
+    const [login, setLogin] = useState({
+        login: [],
     })
 
     // const dateSubmit = (e) => {
@@ -32,9 +32,13 @@ export function Calendario() {
     console.clear();
     const ora = { date }
     console.log(ora)
+    const email = sessionStorage.getItem('auth_nome')
     useEffect(() => {
-
-        axios.post('http://127.0.0.1:8000/api/calendario', ora);
+        const data = {
+            ora,
+            email,
+        }
+        axios.post('http://127.0.0.1:8000/api/calendario', data);
     })
 
 

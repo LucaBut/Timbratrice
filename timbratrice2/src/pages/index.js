@@ -29,7 +29,7 @@ function Home() {
         
         axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
             if (res.data.status === 200) {
-                sessionStorage.clear();
+                // sessionStorage.clear();
                 swal("Good Work", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
@@ -60,7 +60,7 @@ function Home() {
         axios.post('http://127.0.0.1:8000/api/fine', data).then(res => {
             if (res.data.status === 200) {
                 console.log(end.email);
-                sessionStorage.clear();
+                // sessionStorage.clear();
                 swal("Goodbye", res.data.message, "success").then(function () {
                     window.location = '/';
                 })
