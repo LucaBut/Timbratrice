@@ -62,23 +62,37 @@ import contex from "./contex";
 
 
 function Times() {
+    const date = useContext(contex);
     const [login, setLogin] = useState({
         login: [],
     })
 
-    const date = useContext(contex);
     // const ora = { date }
     // console.log(ora)
+    // console.log(date)
     const email = sessionStorage.getItem('auth_nome');
+    sessionStorage.setItem('calendar_hour', date)
+    const ora = sessionStorage.getItem('calendar_hour')
+    console.log(ora)
 
-    // const data = {
-    //     ora,
-    //     email,
+    const data = {
+        date,
+        email,
+    }
+
+    // function init_data() {
+    //     axios.post('http://127.0.0.1:8000/api/calendario', data);
     // }
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then(res => setLogin = (res.data.login))
-    })
+        axios.post('http://127.0.0.1:8000/api/calendario', data);
+        function fetchLogin() {
+            axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then((res) =>
+                res.json()).then((data) => {
+                    setLogin(data)
+                })
+        } fetchLogin()
+    }, [])
 
     // useEffect(function effectFunction() {
     //     axios.post('http://127.0.0.1:8000/api/calendario', data);
@@ -92,19 +106,33 @@ function Times() {
 
 
 
+    // var user_HTMLTABLE =
+    //     login.login.map((item) => {
+    //         return (
+    //             <tr key={item.id} className="tr-item">
+    //                 <td>{item.email}</td>
+    //                 <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
+    //                 <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
+    //             </tr>
+    //         )
+    //     })
+
     var user_HTMLTABLE =
-    login.login.map((item) => {
-        return (
-            <tr key={item.id} className="tr-item">
-                <td>{item.email}</td>
-                <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
-                <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
-            </tr>
-        )
-    })
+        login.map(item => {
+            return (
+                <tr key={item.id} className="tr-item">
+                    <td>{item.email}</td>
+                    <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
+                    <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
+                </tr>
+            )
+        })
+
 
 
     return (
+
+
         <table>
             <thead className="thead">
                 <tr>

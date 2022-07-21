@@ -42,12 +42,12 @@ function Change() {
         <div className="change">
             <div>
                 <form onSubmit={changeSubmit} className="change-form">
-                    <label className="change-write">
-                        Change Password Page
-                    </label>
+                    <center><label className="change-write">
+                        Change Password
+                    </label></center>
                     <span>{changePassword.error_list.email}</span>
                     <label className="l-change">
-                        Change your password here:
+                        New password:
                         <input className="i-change" type='password' name="password" onChange={handleChange} value={changePassword.password}></input>
                     </label>
                     <span>{changePassword.error_list.passowrd}</span>

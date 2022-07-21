@@ -76,7 +76,7 @@ function Home() {
             <div className='App'>
         <form onSubmit={startSubmit} className="form-home">
             <div>
-                <h1 className='title'>Welcome to the company</h1>
+                <center><h1 className='title'>Welcome to the company</h1></center>
                 <button className="b1" onChange={handleDate} value={start.email}>Start shift</button>
             </div>
         </form>

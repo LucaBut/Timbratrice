@@ -29,17 +29,18 @@ export function Calendario() {
     //         orario: orario.orario,
     //     }  
     // }
-    console.clear();
-    const ora = { date }
-    console.log(ora)
-    const email = sessionStorage.getItem('auth_nome')
-    useEffect(() => {
-        const data = {
-            ora,
-            email,
-        }
-        axios.post('http://127.0.0.1:8000/api/calendario', data);
-    })
+    // console.clear();
+    // const ora = { date }
+    // console.log(ora)
+    // sessionStorage.setItem('calendar_hour', ora);
+    // const email = sessionStorage.getItem('auth_nome')
+    // useEffect(() => {
+    //     const data = {
+    //         ora,
+    //         email,
+    //     }
+    //     axios.post('http://127.0.0.1:8000/api/calendario', data);
+    // })
 
 
 

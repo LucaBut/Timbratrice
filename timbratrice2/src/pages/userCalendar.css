@@ -3,6 +3,7 @@
     width: 100%;
     top: 0%;
     border-collapse: collapse;
+    margin-top: 50px;
 }
 
 td {
@@ -25,6 +26,7 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.tr-item:hover {
+tr-item:hover {
     background-color: #ddd;
 }
+

@@ -91,7 +91,7 @@ class RegisterController extends Controller
                                 ->orderBy('id', 'desc')
                                 ->limit(1)
                                 ->update(['orari_fine' => new \DateTime()]);
-                           
+
                 return response()->json([
                 'status'=>200,
                 'message'=>'Change Password Successfully',
@@ -105,10 +105,10 @@ class RegisterController extends Controller
                     ]);
                 }
 
-    
+
 
     public function logout(Request $request){
-        if ($request->user()) { 
+        if ($request->user()) {
             $request->user()->tokens()->delete();
         }
         return response()->json([
@@ -131,10 +131,11 @@ class RegisterController extends Controller
 
     public function calendario(Request $request){
         $data = [
-            'ora'=>$request['ora'],
+            'date'=>$request['date'],
             'email'=>$request['email'],
         ];
 
+        // $user = $this->calendar_start($data);
         $user = $this->calendar_start($request);
 
         return response()->json([
@@ -160,28 +161,27 @@ class RegisterController extends Controller
             'ora'=>$data,
         ]);
     }
-   
+
 
     public function calendar_start(Request $request){
         // $emailAndDate = new RegisterController();
         // $emailAndDate = $this->calendario($request);
-        
-        
+
+
         // $login = login::selectRaw("ID, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")
         //                 ->where('email', '=', $request->email)
-        //                 ->having('date_one', '=', 'date_two')->get()->toArray();          
+        //                 ->having('date_one', '=', 'date_two')->get()->toArray();
 
         // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
 
-        
-
-//-------------------------------------------------------------------------------------------------------------------//       
+        // $utente = $this->calendario($request);
+//-------------------------------------------------------------------------------------------------------------------//
         //Questa
-        $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_start")
+        $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX('{$request->date}', 'T', 1) as date_start")
                        ->where('email', '=', $request->email)
-                       ->having('date_one', 'like', '2022-07-20%', 'and', 'date_two', 'like', '%')->get()->toArray();
-//-------------------------------------------------------------------------------------------------------------------//        
-        //2022-07-14%
+                       ->having('date_one', 'like', '2022-07-21%', 'and', 'date_two', 'like', '%')->get()->toArray();
+//-------------------------------------------------------------------------------------------------------------------//
+        //2022-07-14%, , SUBSTRING_INDEX('{$request->date}', 'T', 1) as date_start
         // $login = login::select('email', 'orari_inizio')
         //                 ->where('email', '=', $request->email)->get()->toArray();
 
@@ -195,7 +195,7 @@ class RegisterController extends Controller
             'status'=>200,
             // 'email'=>$data,
             'login'=>$login,
-            // 'user'=>$user,
+            // 'utente'=>$utente,
             // 'email'=>$emailAndDate,
             // 'ora'=>$data,
         ]);
@@ -235,7 +235,7 @@ class RegisterController extends Controller
             return $user;
         }
 
-        
+
         return $data;
 
 
@@ -272,10 +272,10 @@ class RegisterController extends Controller
             $user = user::create($data);
 
             $token = $user->createToken($user->email.'_token')->plainTextToken;
-            
+
             Mail::to($user->email)->send(new SignUp($data));
-        
-            
+
+
             return response()->json([
                 'status'=>200,
                 'username'=>$user->email,
@@ -286,7 +286,7 @@ class RegisterController extends Controller
             return $user;
         }
 
-        
+
         return $data;
 
 
@@ -311,7 +311,7 @@ class RegisterController extends Controller
         }else{
         $user = user::where('email', '=',  $request->email)
                     ->update(['password' => Hash::make($request->password)]);
-                   
+
         return response()->json([
         'status'=>200,
         'message'=>'Change Password Successfully',
