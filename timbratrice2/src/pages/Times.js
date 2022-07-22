@@ -3,152 +3,87 @@ import axios from "axios";
 import Calendar from "react-calendar";
 import Moment from "react-moment";
 import contex from "./contex";
-
-// class Times extends Component {
-
-//     state = {
-//         login: [],
-//     }
-
-//     async componentDidMount() {
-//         let email
-//         const data = this.contex
-//         console.log(data)
-//         email = sessionStorage.getItem('auth_nome');
-//         // axios.post('http://127.0.0.1:8000/api/calendario', data);
-//         const res = await axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`);
-//         if (res.data.status === 200) {
-//             this.setState({
-//                 login: res.data.login,
-//             })
-//         }
-//     }
-
-//     render() {
-//         var utente_HTMLTABLE =
-//             this.state.login.map((item) => {
-//                 return (
-//                     <tr key={item.id} className='tr-item'>
-//                         <td>{item.id}</td>
-//                         <td>{item.email}</td>
-//                         <td>{item.date_two}</td>
-//                         <td>{item.date_end}</td>
-//                     </tr>
-//                 )
-//             });
-
-//         return (
-//             <>
-//                 <table>
-//                     <thead className="thead">
-//                         <tr>
-//                             <th>ID</th>
-//                             <th>Email</th>
-//                             <th>Start Shift</th>
-//                             <th>End Shift</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {utente_HTMLTABLE}
-//                     </tbody>
-//                 </table>
-//             </>
-//         );
-
-//     }
-
-// }
-
+import swal from "sweetalert";
 
 
 function Times() {
-    const date = useContext(contex);
-    const [login, setLogin] = useState({
-        login: [],
-    })
 
-    // const ora = { date }
-    // console.log(ora)
-    // console.log(date)
+    const [loading, setLoading] = useState(true);
+    const [login, setLogin] = useState([]);
+
     const email = sessionStorage.getItem('auth_nome');
-    sessionStorage.setItem('calendar_hour', date)
-    const ora = sessionStorage.getItem('calendar_hour')
-    console.log(ora)
+    const date = useContext(contex).toDateString();
+    // const hour = { date }
 
     const data = {
-        date,
         email,
+        date,
     }
 
-    // function init_data() {
-    //     axios.post('http://127.0.0.1:8000/api/calendario', data);
-    // }
-
     useEffect(() => {
+        let isMounted = true;
         axios.post('http://127.0.0.1:8000/api/calendario', data);
-        function fetchLogin() {
-            axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then((res) =>
-                res.json()).then((data) => {
-                    setLogin(data)
-                })
-        } fetchLogin()
-    }, [])
-
-    // useEffect(function effectFunction() {
-    //     axios.post('http://127.0.0.1:8000/api/calendario', data);
-    //     async function fetchLogin() {
-    //         const res = await axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`);
-    //         const json = await res.json();
-    //         setLogin(json.data)
-    //     } fetchLogin();
-    // }, []);
-
-
-
-
-    // var user_HTMLTABLE =
-    //     login.login.map((item) => {
-    //         return (
-    //             <tr key={item.id} className="tr-item">
-    //                 <td>{item.email}</td>
-    //                 <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
-    //                 <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
-    //             </tr>
-    //         )
-    //     })
-
-    var user_HTMLTABLE =
-        login.map(item => {
-            return (
-                <tr key={item.id} className="tr-item">
-                    <td>{item.email}</td>
-                    <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
-                    <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
-                </tr>
-            )
+        axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}/`+ data.date).then(res => {
+            if (isMounted) {
+                if (res.data.status === 200) {
+                    setLogin(res.data.user);
+                    setLoading(false);
+                } else {
+                    swal({
+                        icon: 'warning',
+                        text: 'Error loading shifts'
+                    })
+                }
+            }
         })
 
+        return () => {
+            isMounted = false;
+        }
+    }, [])
+
+
+    if (loading) {
+        return <h2>Loading...</h2>
+    }
+
+    var user_HTMLTABLE = "";
+
+    user_HTMLTABLE = login.map((item) => {
+        return (
+            // <tr key={item.id} className='tr-item'>
+            //     <td>{item.id}</td>
+            //     <td>{item.email}</td>
+            //     <td>{item.date_two}</td>
+            //     <td>{item.date_end}</td>
+            // </tr>
+            <h2 key={item.id}>Your shift started on: {item.date_one} at: {item.date_two} and ended on: {item.date_day_end} at: {item.date_end}</h2>
+        )
+    })
 
 
     return (
-
-
-        <table>
-            <thead className="thead">
-                <tr>
-                    <th>Email</th>
-                    <th>Start Shift</th>
-                    <th>End Shift</th>
-                </tr>
-            </thead>
-            <tbody>
-                {user_HTMLTABLE}
-            </tbody>
-        </table>
+        <div>
+            {/* <div>
+                <table>
+                    <thead className="thead">
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Start Shift</th>
+                            <th>End Shift</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {user_HTMLTABLE}
+                    </tbody>
+                </table>
+            </div> */}
+            {user_HTMLTABLE}
+        </div>
     )
-
-
 }
+
 
 export default Times;
 
@@ -182,237 +117,91 @@ export default Times;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useContext, useEffect } from "react";
-// import axios from "axios";
-// import Moment from "react-moment";
-// import 'moment-timezone';
-// import contex from "./contex";
-
-
-// function Times(props) {
-
-//     // const [event, setEvent] = useState(null)
-//     const [info, setInfo] = useState(false)
+// function Times() {
 //     const date = useContext(contex);
-//     // console.log(date);
-
-//     function displayInfo(e) {
-//         setInfo(true);
-//         //     setEvent(e.target.innerText);
-//     }
-
-//     // const [start, setStart] = useState({
-//     //     login: [],
-//     //     email: '',
-//     //     date_two: '',
-//     // })
-//     const [start, setStart] = useState({
-//         email: '',
-//         orari_inizio: '',
-//     })
-
-//     const [state, setState] = useState({
+//     const [login, setLogin] = useState({
 //         login: [],
 //     })
 
+//     // const ora = { date }
+//     // console.log(ora)
+//     // console.log(date)
+//     const email = sessionStorage.getItem('auth_nome');
+//     sessionStorage.setItem('calendar_hour', date)
+//     const ora = sessionStorage.getItem('calendar_hour')
+//     console.log(ora)
 
-//     // const [start, setStart] = useState({
-//     //     email: '',
-//     //     ora: '',
-//     // })
-
-
-//     function init_data() {
-//         start.orari_inizio = { date };
-//         start.email = sessionStorage.getItem('auth_nome');
-//         const data = {
-//             email: start.email,
-//             orari_inizio: start.orari_inizio,
-//         }
-
-//         axios.post('http://127.0.0.1:8000/api/calendario', data).then(res => {
-//             // console.log(res.data)
-//         });
+//     const data = {
+//         date,
+//         email,
 //     }
 
-//     useEffect(() => {
-//         init_data()
-//         const email = start.email;
-//         axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then(res => {
-//             setStart.email = res.data.email;
-//             setStart.orari_inizio = res.data.orari_inizio;
-//             setState.login = res.data.login;
-//             // console.log(res.data.orari_inizio);
-//         })
-//     })
-
-
-//     // const startSubmit = (e) => {
-//     //     e.preventDefault();
-//     //     // console.log({ora});
-//     //     // start.orari_inizio = { ora };
-//     //     // <Time orari_inizio = {props.date} />
-
-//     //     // <Calendario orari_inizio = {date} />
-//     //     // console.log({date})
-//     //     // console.log(<Calendario orari_inizio = {props.date}/>)
-//     //     // start.orari_inizio = <Calendario orari_inizio = {props.date}/>
-//     //     // console.log(<Moment format="YYYY-DD-MM"><Calendario orari_inizio = {props.date}/></Moment>)
-//     //     console.log({date});
-//     //     start.orari_inizio = {date};
-//     //     start.email = sessionStorage.getItem('auth_nome');
-//     //     const data = {
-//     //         email: start.email,
-//     //         orari_inizio: start.orari_inizio,
-//     //     }
-
-//     //     // axios.post('http://127.0.0.1:8000/api/ora');
-
+//     // function init_data() {
 //     //     axios.post('http://127.0.0.1:8000/api/calendario', data);
-
-//     //     axios.get('http://127.0.0.1:8000/api/calendar-start', data).then(res => {
-//     //         if (res.data.status === 200) {
-//     //             setStart({
-//     //                 login: res.data.login,
-//     //                 email: start.email,
-//     //                 orari_inizio: start.orari_inizio,
-//     //             })
-//     //         }
-//     //     })
 //     // }
 
-//     // console.log(<Moment format="YYYY-DD-MM"><Calendario orari_inizio = {props.date}/></Moment>)
+//     useEffect(() => {
+//         axios.post('http://127.0.0.1:8000/api/calendario', data);
+//         function fetchLogin() {
+//             axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`).then((res) =>
+//                 res.json()).then((data) => {
+//                     setLogin(data)
+//                 })
+//         } fetchLogin()
+//     }, [])
 
-//     // var utente_HTMLTABLE =
-//     //     state.login.map((item) => {
+//     // useEffect(function effectFunction() {
+//     //     axios.post('http://127.0.0.1:8000/api/calendario', data);
+//     //     async function fetchLogin() {
+//     //         const res = await axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}`);
+//     //         const json = await res.json();
+//     //         setLogin(json.data)
+//     //     } fetchLogin();
+//     // }, []);
+
+
+
+
+//     // var user_HTMLTABLE =
+//     //     login.login.map((item) => {
 //     //         return (
 //     //             <tr key={item.id} className="tr-item">
-//     //                 <td>{item.id}</td>
 //     //                 <td>{item.email}</td>
-//     //                 <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.date_one}</Moment></td>
-//     //                 {/* <td><Moment format="DD-MM-YYYY, HH:mm:ss">{item.orari_fine}</Moment></td> */}
+//     //                 <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
+//     //                 <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
 //     //             </tr>
 //     //         )
 //     //     })
 
 //     var user_HTMLTABLE =
-//         state.login.map((item) => {
+//         login.map(item => {
 //             return (
-//                 <div key={item.id}>
-//                     <h3>{item.email}</h3>
-//                 </div>
+//                 <tr key={item.id} className="tr-item">
+//                     <td>{item.email}</td>
+//                     <td><Moment format="YYYY-MM-DD">{item.date_two}</Moment></td>
+//                     <td><Moment format="YYYY-MM-DD">{item.date_end}</Moment></td>
+//                 </tr>
 //             )
 //         })
 
+
+
 //     return (
 
-//         <>
 
-
-//             {/* <table>
-//                 <thead className="thead">
-//                     <tr>
-//                         <th>ID</th>
-//                         <th>Email</th>
-//                         <th>Start Shift</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {utente_HTMLTABLE}
-//                 </tbody>
-//             </table> */}
-//             {/* <div> */}
-//             {/* {props.showTime ? <Time orari_inizio={props.showTime}/> : null} */}
-//             {/* <div>
-//                     {info ? `Your appointment is set to ${start} ${props.date.toDateString()}` : null}
-//                 </div> */}
-//             {/* <button onClick={startSubmit}>Entrata</button> */}
-//             <div>
-//                 <h3>The day {props.date.toDateString()} you start work at: {state.login} and you finished at: {start.email}</h3>
-//             </div>
-//         </>
-//         // <div className="times">
-//         //     {shift.map(shift => {
-//         //         return (
-//         //             <div>
-//         //                 <button onClick={startSubmit}> {shift} </button>
-//         //             </div>
-//         //         )
-//         //     })}
-//         // <div>
-//         //     {info ? `Your appointment is set to ${start} ${props.date.toDateString()}` : null}
-//         // </div>
-//         // </div>
-
+//         <table>
+//             <thead className="thead">
+//                 <tr>
+//                     <th>Email</th>
+//                     <th>Start Shift</th>
+//                     <th>End Shift</th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//                 {user_HTMLTABLE}
+//             </tbody>
+//         </table>
 //     )
-// }
 
-// export default Times;
+
+// }

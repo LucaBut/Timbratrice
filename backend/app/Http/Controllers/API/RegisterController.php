@@ -135,13 +135,16 @@ class RegisterController extends Controller
             'email'=>$request['email'],
         ];
 
+        
+
         // $user = $this->calendar_start($data);
-        $user = $this->calendar_start($request);
+        // $utente = $this->calendar_start($request);
 
         return response()->json([
             'status'=>200,
-            'date'=>$data,
-            'user'=>$user,
+            'orario'=>$data,
+            // 'user'=>$user,
+            // 'this'=>$utente,
         ]);
         // $validator = Validator::make($request->all(), [
         //     'email'=>'required',
@@ -150,20 +153,7 @@ class RegisterController extends Controller
     }
 
 
-    public function ora(Request $request){
-        $data = [
-            'ora'=>$request['ora'],
-            // 'email'=>$request['email'],
-        ];
-
-        return response()->json([
-            'status'=>200,
-            'ora'=>$data,
-        ]);
-    }
-
-
-    public function calendar_start(Request $request){
+    public function calendar_start($email, $date){
         // $emailAndDate = new RegisterController();
         // $emailAndDate = $this->calendario($request);
 
@@ -174,12 +164,21 @@ class RegisterController extends Controller
 
         // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
 
-        // $utente = $this->calendario($request);
+        // $utente = $this->calendario($date);
+
+//-------------------------------------------------------------------------------------------------------------------//
+        
+        // $user = login::select('id', 'email', 'orari_inizio', 'orari_fine')
+        //               ->where('email', $email)->get()->toArray();
+        
+        // $timestamp = strtotime($date);
+        // $timestamp = Carbon::createFromFormat('dddd MMM DD Y', $date)->format('YYYY-MMM-dddd');
+
 //-------------------------------------------------------------------------------------------------------------------//
         //Questa
-        $login = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX('{$request->date}', 'T', 1) as date_start")
-                       ->where('email', '=', $request->email)
-                       ->having('date_one', 'like', '2022-07-21%', 'and', 'date_two', 'like', '%')->get()->toArray();
+        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, SUBSTRING_INDEX('{$date}', 'G', 1) as date_start")
+                       ->where('email', $email)
+                       ->having('date_one', 'like', '2022-07-22%', 'and', 'date_two', 'like', '%')->get()->toArray();
 //-------------------------------------------------------------------------------------------------------------------//
         //2022-07-14%, , SUBSTRING_INDEX('{$request->date}', 'T', 1) as date_start
         // $login = login::select('email', 'orari_inizio')
@@ -194,8 +193,9 @@ class RegisterController extends Controller
         return response()->json([
             'status'=>200,
             // 'email'=>$data,
-            'login'=>$login,
-            // 'utente'=>$utente,
+            'user'=>$user,
+            // 'utente'=>$utente->original,
+            
             // 'email'=>$emailAndDate,
             // 'ora'=>$data,
         ]);
