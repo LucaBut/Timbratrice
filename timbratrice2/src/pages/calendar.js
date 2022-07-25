@@ -1,5 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import './userCalendar.css';
 import Moment from "react-moment";
 import 'moment-timezone';
@@ -7,7 +6,6 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import Time from "./Time";
 import './userCalendar.css';
-import Times from "./Times";
 import context from "./contex";
 
 export function Calendario() {
@@ -40,14 +38,13 @@ export function Calendario() {
     // })
 
 
-
     return (
         <center>
             <div>
                 <div>
                     <Calendar className="calendario" onChange={setDate} value={date} onClickDay={() => setShowTime(true)} />
                 </div>
-
+                
                 {date.length > 0 ? (
                     <p>
                         <span>Start: </span>

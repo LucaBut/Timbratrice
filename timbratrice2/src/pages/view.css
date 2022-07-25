@@ -1,4 +1,4 @@
-h1{
+h1 {
     position: fixed;
     top: 10%;
 }
@@ -10,22 +10,31 @@ table {
     border-collapse: collapse;
 }
 
-td{
+td {
     text-align: left;
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-.thead{
+.thead {
     background-color: #333333;
-    color:#ddd;
+    color: #ddd;
     padding: 8px;
 }
 
-tr{
+tr {
     border: 3px solid #ddd;
 }
 
-tr:nth-child(even){background-color: #f2f2f2;}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-.tr-item:hover {background-color: #ddd;}
+.tr-item:hover {
+    background-color: #ddd;
+}
+
+.admin-table {
+    margin-top: 80%;
+    display: flex;
+}

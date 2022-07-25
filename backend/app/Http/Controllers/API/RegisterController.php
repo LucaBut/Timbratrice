@@ -135,69 +135,26 @@ class RegisterController extends Controller
             'email'=>$request['email'],
         ];
 
-        
-
-        // $user = $this->calendar_start($data);
-        // $utente = $this->calendar_start($request);
-
         return response()->json([
             'status'=>200,
             'orario'=>$data,
-            // 'user'=>$user,
-            // 'this'=>$utente,
         ]);
-        // $validator = Validator::make($request->all(), [
-        //     'email'=>'required',
-        // ]);
-
     }
 
 
     public function calendar_start($email, $date){
-        // $emailAndDate = new RegisterController();
-        // $emailAndDate = $this->calendario($request);
 
+        $hour = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');
 
-        // $login = login::selectRaw("ID, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")
-        //                 ->where('email', '=', $request->email)
-        //                 ->having('date_one', '=', 'date_two')->get()->toArray();
-
-        // $login = login::selectRaw("SUBSTRING_INDEX('{$request->date}', ' ', 1) as date_one")->get()->toArray();
-
-        // $utente = $this->calendario($date);
-
-//-------------------------------------------------------------------------------------------------------------------//
-        
-        // $user = login::select('id', 'email', 'orari_inizio', 'orari_fine')
-        //               ->where('email', $email)->get()->toArray();
-        
-        // $timestamp = strtotime($date);
-        // $timestamp = Carbon::createFromFormat('dddd MMM DD Y', $date)->format('YYYY-MMM-dddd');
-
-//-------------------------------------------------------------------------------------------------------------------//
-        //Questa
-        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, SUBSTRING_INDEX('{$date}', 'G', 1) as date_start")
+        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, '{$hour}'")
                        ->where('email', $email)
-                       ->having('date_one', 'like', '2022-07-22%', 'and', 'date_two', 'like', '%')->get()->toArray();
-//-------------------------------------------------------------------------------------------------------------------//
-        //2022-07-14%, , SUBSTRING_INDEX('{$request->date}', 'T', 1) as date_start
-        // $login = login::select('email', 'orari_inizio')
-        //                 ->where('email', '=', $request->email)->get()->toArray();
+                       ->having('date_one', '=', $hour, 'and', 'date_two', 'like', '%')->get()->toArray();
 
-        // $login = login::select($request->date);
-
-        // $login = login::select("SUBSTRING_INDEX($request->orari_inizio, ' ', 1)")->get()->toArray();
-
-        // $login = login::selectRaw("SUBSTRING_INDEX('{$request->orari_inizio}', ' ', 1) as date_two")->get()->toArray();
+        //2022-07-14%, , SUBSTRING_INDEX('{$date}', 'G', 1) as date_start
 
         return response()->json([
             'status'=>200,
-            // 'email'=>$data,
             'user'=>$user,
-            // 'utente'=>$utente->original,
-            
-            // 'email'=>$emailAndDate,
-            // 'ora'=>$data,
         ]);
     }
 
