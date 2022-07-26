@@ -10,32 +10,35 @@ function Times() {
     const [login, setLogin] = useState([]);
 
     const email = sessionStorage.getItem('auth_nome');
-    const date = useContext(contex).toDateString();
+
+
+    var day = useContext(contex).toDateString();
+
     // const hour = { date }
-    console.log("Contex date: " + date)
+    console.log("Contex date: " + day)
 
 
     const data = {
         email,
-        date,
+        day,
     }
 
-    var count = 0;
 
+    // function fetchLogin() {
 
-    // function fetchLogin(){
+    //     let isMounted = true;
+    //     // let timer2 = setTimeout(() => {
 
-    //     let timer = setTimeout(() => {
-    //         console.log("Dentro useEffetct " + date)
-    //         let isMounted = true;
-    //         axios.post('http://127.0.0.1:8000/api/calendario', data);
-    //         const fetchUser = async () => {
-    //             await axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}/${date}`).then(res => {
+    //         function fetchUser([]) {
+    //             axios.post('http://127.0.0.1:8000/api/calendario', data);
+
+    //             axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}/${day}`).then(res => {
+    //                 console.log("Dentro useEffetct " + day)
     //                 if (isMounted) {
     //                     if (res.data.status === 200) {
     //                         setLogin(res.data.user);
     //                         setLoading(false);
-    //                         // count = 1
+    //                         return;
     //                     } else {
     //                         swal({
     //                             icon: 'warning',
@@ -44,22 +47,30 @@ function Times() {
     //                     }
     //                 }
     //             })
+    //             // clearTimeout(timer2);
     //         }
-    //         fetchUser()
+    //         fetchUser([]);
 
     //         return () => {
-    //             clearTimeout(timer);
     //             isMounted = false;
     //         }
-    //     }, 2000)
 
     // }
+    // //     fetchUser();
+
+    // let timer2 = setTimeout(() => {
+    //     fetchLogin()
+    //     return () => {
+    //         clearTimeout(timer2)
+    //     }
+    // }, 5000)
+
 
     // if(count == 0){
     //     fetchLogin();
     // }
 
-    // for(let i = 0; i < 2; i++){
+    // for (let i = 0; i < 2; i++) {
     //     fetchLogin();
     // }
 
@@ -74,13 +85,14 @@ function Times() {
     // fetchLogin()
 
     useEffect(() => {
-        let timer = setTimeout(() => {
-            console.log("Dentro useEffetct " + date)
-            let isMounted = true;
-            axios.post('http://127.0.0.1:8000/api/calendario', data);
+        let isMounted = true;
+        let timer2 = setTimeout(() => {
 
-            const fetchUser = async () => {
-                await axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}/${date}`).then(res => {
+            function fetchUser([]) {
+                axios.post('http://127.0.0.1:8000/api/calendario', data);
+
+                axios.get(`http://127.0.0.1:8000/api/calendar-start/${email}/${day}`).then(res => {
+                    console.log("Dentro useEffetct " + day)
                     if (isMounted) {
                         if (res.data.status === 200) {
                             setLogin(res.data.user);
@@ -94,20 +106,17 @@ function Times() {
                         }
                     }
                 })
+                // clearTimeout(timer2);
             }
-
-            fetchUser();
-
+            fetchUser([]);
 
             return () => {
-                clearTimeout(timer);
                 isMounted = false;
             }
-        }, 1000)
+
+        }, 5000)
 
     }, [])
-
-
 
 
 

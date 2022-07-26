@@ -144,13 +144,18 @@ class RegisterController extends Controller
 
     public function calendar_start($email, $date){
 
-        $hour = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');
+        // $hour = Carbon::createFromFormat('Y-m-d', $date);
+        // $hour = Carbon::createFromFormat('D M d Y H:i:s', $date)->format('Y-m-d');
 
-        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, '{$hour}'")
+        $final_date = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');
+
+        // $date->setTimezone('GMT+02000');
+
+        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, '{$final_date}'")
                        ->where('email', $email)
-                       ->having('date_one', '=', $hour, 'and', 'date_two', 'like', '%')->get()->toArray();
+                       ->having('date_one', '=', $final_date, 'and', 'date_two', 'like', '%')->get()->toArray();
 
-        //2022-07-14%, , SUBSTRING_INDEX('{$date}', 'G', 1) as date_start
+        //2022-07-14%, , SUBSTRING_INDEX('{$date}', '00', 1) as date_start
 
         return response()->json([
             'status'=>200,

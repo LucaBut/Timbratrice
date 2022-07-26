@@ -26,7 +26,7 @@ function Home() {
             email: start.email,
         }
 
-        
+
         axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
             if (res.data.status === 200) {
                 // sessionStorage.clear();
@@ -72,20 +72,20 @@ function Home() {
 
 
     return (
-        
-            <div className='App'>
-        <form onSubmit={startSubmit} className="form-home">
-            <div>
-                <center><h1 className='title'>Welcome to the company</h1></center>
-                <button className="b1" onChange={handleDate} value={start.email}>Start shift</button>
-            </div>
-        </form>
-                <Moment interval={1000} format='MMMM Do YYYY, HH:mm:ss' className='clock'></Moment>
-        <form onSubmit={endSubmit}>
-            <div>
-                <button className="b2" onChange={handleEnd} value={start.email}>End shift</button>
-            </div>
-        </form>
+
+        <div className='App'>
+            <form onSubmit={startSubmit} className="form-home">
+                <div>
+                    <center><h1 className='title'>Welcome to the company</h1></center>
+                    <button className="b1" onChange={handleDate} value={start.email}>Start shift</button>
+                </div>
+            </form>
+            <Moment interval={1000} format='MMMM Do YYYY, HH:mm:ss' className='clock'></Moment>
+            <form onSubmit={endSubmit}>
+                <div>
+                    <button className="b2" onChange={handleEnd} value={start.email}>End shift</button>
+                </div>
+            </form>
         </div>
     );
 

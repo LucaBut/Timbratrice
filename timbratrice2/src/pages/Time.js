@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import Calendar from "react-calendar";
-import Calendario from "./calendar";
+import React from "react";
 import Times from "./Times";
 
 function Time(props) {
     return (
         <div>
-            {props.showTime ? <Times date={props.date} /> : null}
+            {props.showTime ? <Times date={props.date} /> : null}            
         </div>
     )
 }
