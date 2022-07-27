@@ -18,6 +18,10 @@ Route::post('change', [RegisterController::class, 'changePassword']);
 
 Route::get('calendar-start/{email}/{date}', [RegisterController::class, 'calendar_start']);
 
+Route::get('export/{date1}', [RegisterController::class, 'export']);
+
+Route::post('export/upload', [RegisterController::class, 'export_upload']);
+
 Route::post('orario', [RegisterController::class, 'ora']);
 
 Route::post('calendario', [RegisterController::class, 'calendario']);

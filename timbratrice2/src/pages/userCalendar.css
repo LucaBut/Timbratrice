@@ -1,4 +1,4 @@
-.table-user {
+/* .table-user {
     background-color: rgb(255, 255, 255);
     width: 100%;
     top: 0%;
@@ -29,4 +29,14 @@ tr:nth-child(even) {
 tr-item:hover {
     background-color: #ddd;
 }
+ */
 
+
+ .rdp-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    text-align: left;
+    background-color: white;
+  }

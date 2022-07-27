@@ -99,6 +99,7 @@ function Navbar() {
         <li><a href='/view'>Users log</a></li>
         <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
         <li><a href='/admin'>Add Users</a></li>
+        <li><a href='/export'>Export data</a></li>
       </ul>
       </center>
 
@@ -140,7 +141,7 @@ function Navbar() {
       // </Nav>
 
     )
-  }
+  } 
 
 
 

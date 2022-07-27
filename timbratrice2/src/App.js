@@ -9,6 +9,7 @@ import Vista from './pages/vista';
 import Admin from './pages/admin';
 import Change from './pages/changePassword';
 import Calendario from './pages/calendar';
+import Export from './pages/exportData';
 import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -28,6 +29,7 @@ function App() {
 				<Route path='/admin' element={<Admin />} />
 				<Route path='/password' element={<Change />} />
 				<Route path='/calendar' element={<Calendario />} />
+				<Route path='/export' element={<Export />} />
 			</Routes>
 		</Router>
 	);

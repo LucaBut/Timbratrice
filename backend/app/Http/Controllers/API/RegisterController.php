@@ -149,7 +149,7 @@ class RegisterController extends Controller
 
         $final_date = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');
 
-        // $date->setTimezone('GMT+02000');
+        // $date->setTimezone('Europe/Rome');
 
         $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, '{$final_date}'")
                        ->where('email', $email)
@@ -160,6 +160,30 @@ class RegisterController extends Controller
         return response()->json([
             'status'=>200,
             'user'=>$user,
+        ]);
+    }
+
+    public function export_upload(Request $request){
+        $data = [
+            'date1'=>$request['date1'],
+            'date1'=>$request['date2'],
+        ];
+
+        return response()->json([
+            'status'=>200,
+            'User-data'=>$data,
+        ]);
+    }
+
+    public function export($date1){
+
+        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start")
+                    ->get()->toArray();
+
+
+        return response()->json([
+            'status'=>200,
+            'User'=>$user
         ]);
     }
 

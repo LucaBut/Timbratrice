@@ -58,6 +58,7 @@ function Vista(){
 
 
     return (
+        <div>
         <div className="admin-table">
             <table>
                 <thead className="thead">
@@ -72,6 +73,7 @@ function Vista(){
                     {utenti_HTMLTABLE}
                 </tbody>
             </table>
+        </div>
         </div>
     )
 
