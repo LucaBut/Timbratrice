@@ -33,7 +33,7 @@ function Register() {
 
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
             axios.post('http://127.0.0.1:8000/api/reg', data).then(res => {
-                if (res.data.status === 200) {
+                if (res.data.status === 200) {          //If the api have success state then show a pop-up message with success operation
                     swal("Success", res.data.message, "success").then(function(){
                         window.location = '/';
                     });
@@ -46,7 +46,7 @@ function Register() {
     }
 
 
-    return (
+    return (                //Create the register form
         <center>
             <div>
                 <form onSubmit={registerSubmit} className="form-reg">

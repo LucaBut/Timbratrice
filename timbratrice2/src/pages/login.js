@@ -28,7 +28,7 @@ function SignUp() {
 
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
             axios.post('http://127.0.0.1:8000/api/login', data).then(res => {
-                if (res.data.status === 200) {
+                if (res.data.status === 200) {       //If the api have success state then show a pop-up message with success operation
                     sessionStorage.setItem('auth_token', res.data.token);
                     sessionStorage.setItem('auth_nome', res.data.username);
                     swal("Success", res.data.message, "success").then(function () {
@@ -49,12 +49,11 @@ function SignUp() {
         })
     }
 
-    return (
+    return (        //Create the login form
         <center>
             <div>
                 <form onSubmit={loginSubmit} className="form-login">
                     <label className='Login-write'><center>Login Page</center></label>
-                    {/* <h1><center>Login Page</center></h1> */}
                     <label className='l'>
                         Email:
                         <input className='i1' type="email" name='email' onChange={handleInput} value={loginInput.email} required />

@@ -24,8 +24,11 @@ use App\Notifications\WelcomeEmailNotification;
 class RegisterController extends Controller
 {
 
+    //-------------------------------------------------------------Utente---------------------------------------------------------//
+    
+    //Function login
     public function login(Request $request){
-        $validator = Validator::make($request ->all(), [
+        $validator = Validator::make($request ->all(), [    //Require form data
             'email'=>'required|max:191',
             'password'=>'required',
         ]);
@@ -34,7 +37,7 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
-            $user = user::where('email', $request->email)->first();
+            $user = user::where('email', $request->email)->first();     //Check if data exist in the DB
             if(! $user || ! Hash::check($request->password, $user->password)){
                 return response()->json([
                     'status'=>401,
@@ -54,8 +57,9 @@ class RegisterController extends Controller
         }
     }
 
-    public function start_day(Request $request){
-        $validator = Validator::make($request->all(), [
+    //Function for the start shift button
+    public function start_day(Request $request){    
+        $validator = Validator::make($request->all(), [     //Require data (in this case form the Session Storage)
             'email'=>'required',
         ]);
         if($validator->fails()){
@@ -63,7 +67,7 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
-            $login = login::create([
+            $login = login::create([        //Create the record in the DB
                 'email'=>$request->email,
                 'orari_inizio'=>new \DateTime(),
             ]);
@@ -75,11 +79,12 @@ class RegisterController extends Controller
             }
         }
 
+        //Function for the end shift button
         public function end_day(Request $request){
             $data = [
-                'email'=>$request['email'],
+                'email'=>$request['email'],     
             ];
-            $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [     //Require data (in this case form the Session Storage)
                 'email'=>'required',
             ]);
             if($validator->fails()){
@@ -87,7 +92,7 @@ class RegisterController extends Controller
                     'validation_errors'=>$validator->messages(),
                 ]);
             }else{
-                $loginf = loginf::where('email', '=',  $request->email)
+                $loginf = loginf::where('email', '=',  $request->email)     //Update the row with new date
                                 ->orderBy('id', 'desc')
                                 ->limit(1)
                                 ->update(['orari_fine' => new \DateTime()]);
@@ -106,7 +111,7 @@ class RegisterController extends Controller
                 }
 
 
-
+    //Function logout
     public function logout(Request $request){
         if ($request->user()) {
             $request->user()->tokens()->delete();
@@ -118,19 +123,9 @@ class RegisterController extends Controller
     }
 
 
-    public function getUser(){
-        $login = login::all()->toArray();
-        $loginf = loginf::all()->toArray();
-
-        return response()->json([
-            'status'=>200,
-            'login'=>$login,
-            'loginf'=>$loginf,
-        ]);
-    }
-
+    //Function calendar only for post data
     public function calendario(Request $request){
-        $data = [
+        $data = [       //Request data
             'date'=>$request['date'],
             'email'=>$request['email'],
         ];
@@ -142,6 +137,7 @@ class RegisterController extends Controller
     }
 
 
+    //Function calendar 
     public function calendar_start($email, $date){
 
         // $hour = Carbon::createFromFormat('Y-m-d', $date);
@@ -151,9 +147,12 @@ class RegisterController extends Controller
 
         // $date->setTimezone('Europe/Rome');
 
+
+        //Select the data with split the field orari_inizio and orari_fine where date_one stand only for the date, date_two is the hour string, date_end the date, date_day_end is for the hour string, then the final_date value
         $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX(orari_inizio, ' ', -1) as date_two, SUBSTRING_INDEX(orari_fine, ' ', -1) as date_end, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_day_end, '{$final_date}'")
-                       ->where('email', $email)
-                       ->having('date_one', '=', $final_date, 'and', 'date_two', 'like', '%')->get()->toArray();
+                       ->where('email', $email)     //where the field email match with the var $email
+                       ->having('date_one', '=', $final_date, 'and', 'date_two', 'like', '%')->get()->toArray();    
+                        //Then check where date_one match with the var $final_date
 
         //2022-07-14%, , SUBSTRING_INDEX('{$date}', '00', 1) as date_start
 
@@ -163,6 +162,7 @@ class RegisterController extends Controller
         ]);
     }
 
+    //Function upload data for the export
     public function export_upload(Request $request){
         $data = [
             'date1'=>$request['date1'],
@@ -175,21 +175,23 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function export($date1){
+    //Function export .xlsx
+    public function export(){
 
-        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start")
-                    ->get()->toArray();
+        // $user = login::selectRaw("id, email, orari_inizio, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start")    
+        //              ->get()->toArray();
+
+        $user = login::select('*')->get()->toArray();
 
 
         return response()->json([
-            'status'=>200,
             'User'=>$user
         ]);
     }
 
-
+    //Function for register (User side)
     public function store(Request $request){
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [     //Require data
             'nome'=> 'required',
             'cognome'=> 'required',
             'email'=>'required|email',
@@ -206,11 +208,11 @@ class RegisterController extends Controller
                 'nome'=>$request['nome'],
                 'cognome'=>$request['cognome'],
                 'email'=>$request['email'],
-                'password'=>Hash::make($request['password']),
+                'password'=>Hash::make($request['password']),   //Password hash
             ];
-            $user = user::create($data);
+            $user = user::create($data);        //Create new user record
 
-            $token = $user->createToken($user->email.'_token')->plainTextToken;
+            $token = $user->createToken($user->email.'_token')->plainTextToken;     
             return response()->json([
                 'status'=>200,
                 'username'=>$user->email,
@@ -232,9 +234,24 @@ class RegisterController extends Controller
 
     }
 
+//-------------------------------------------------------------Admin---------------------------------------------------------//
 
+    //Function for get all logins
+    public function getUser(){
+        $login = login::all()->toArray();
+        $loginf = loginf::all()->toArray();
+
+        return response()->json([
+            'status'=>200,
+            'login'=>$login,
+            'loginf'=>$loginf,
+        ]);
+    }
+
+
+    //Function for register (Admin side)
     public function storeAdmin(Request $request){
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [     //Require data
             'nome'=> 'required',
             'cognome'=> 'required',
             'email'=>'required|email',
@@ -255,11 +272,11 @@ class RegisterController extends Controller
                 'password'=>Hash::make($request['password']),
             ];
 
-            $user = user::create($data);
+            $user = user::create($data);    //Create new user record
 
             $token = $user->createToken($user->email.'_token')->plainTextToken;
 
-            Mail::to($user->email)->send(new SignUp($data));
+            Mail::to($user->email)->send(new SignUp($data));    //Send a mail to new user with all not encoded data
 
 
             return response()->json([
@@ -282,8 +299,10 @@ class RegisterController extends Controller
         ]);
     }
 
+
+    //Function change password
     public function changePassword (Request $request){
-        $data = [
+        $data = [                                           //Require data
             'email'=>$request['email'],
             'password'=>Hash::make($request['password']),
         ];
@@ -295,7 +314,7 @@ class RegisterController extends Controller
                 'validation_errors'=>$validator->messages(),
             ]);
         }else{
-        $user = user::where('email', '=',  $request->email)
+        $user = user::where('email', '=',  $request->email)                     //Where email match then update the password
                     ->update(['password' => Hash::make($request->password)]);
 
         return response()->json([

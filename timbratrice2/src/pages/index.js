@@ -21,7 +21,7 @@ function Home() {
 
     const startSubmit = (e) => {
         e.preventDefault();
-        start.email = sessionStorage.getItem('auth_nome');
+        start.email = sessionStorage.getItem('auth_nome');      //Pass the email on the session storage
         const data = {
             email: start.email,
         }
@@ -30,7 +30,7 @@ function Home() {
         axios.post('http://127.0.0.1:8000/api/start', data).then(res => {
             if (res.data.status === 200) {
                 // sessionStorage.clear();
-                swal("Good Work", res.data.message, "success").then(function () {
+                swal("Good Work", res.data.message, "success").then(function () {   //Pop-up message with success for start shift operation
                     window.location = '/';
                 })
             } else {
@@ -61,7 +61,7 @@ function Home() {
             if (res.data.status === 200) {
                 console.log(end.email);
                 // sessionStorage.clear();
-                swal("Goodbye", res.data.message, "success").then(function () {
+                swal("Goodbye", res.data.message, "success").then(function () {         //Pop-up message with success for start shift operation
                     window.location = '/';
                 })
             } else {
@@ -71,7 +71,7 @@ function Home() {
     }
 
 
-    return (
+    return (        //Show two buttons for start shift and end shift
 
         <div className='App'>
             <form onSubmit={startSubmit} className="form-home">

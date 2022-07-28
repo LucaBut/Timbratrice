@@ -17,11 +17,11 @@ axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.withCredentials = true;
 
 function App() {
-	return (
+	return (	//Route list
 		<Router>
 			<Navbar />
 			<Routes>
-				<Route exact path='/' index element={<SignUp />} 
+				<Route exact path='/' index element={<SignUp />} 	//First page when site load
 				/>
 				<Route path='/home' element={<Home />} />
 				<Route path='/register' element={<Register />} />
