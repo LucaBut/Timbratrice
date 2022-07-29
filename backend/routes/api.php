@@ -16,7 +16,7 @@ Route::post('reg', [RegisterController::class, 'store']);
 
 Route::post('reg-admin', [RegisterController::class, 'storeAdmin']);
 
-Route::get('export', [RegisterController::class, 'export']);
+Route::get('export/{date1}/{date2}', [RegisterController::class, 'export']);
 
 Route::post('export/upload', [RegisterController::class, 'export_upload']);
 

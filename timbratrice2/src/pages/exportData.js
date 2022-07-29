@@ -2,102 +2,77 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MonthPicker from "simple-react-month-picker";
 import moment from "moment";
-import { ExportExcel } from "./excelfile";
 import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
 
 function Export() {
 
-    // const [date, setDate] = useState(null);
-    // const [user, setUser] = useState([]);
-    // const fileType = "xlsx";
-    // const fileName = "user_data";
-    // var customHeadings;
+    const [data, setData] = useState([])
+    const [date, setDate] = useState(null);
+
+useEffect(() => {
+    if(data.length > 0){
+         excel()
+    }
+   
+}, [data])
+
+    const fileName = "user_data"; 
+    const fileType = "xlsx";
+    const fileExtension = ".xlsx";
 
 
-    // const fetch = async () => {
+    function exportData() {
+        const date1 = date[0];
+        const date2 = date[1];
 
-    //     const date1 = date[0];
-    //     const date2 = date[1];
-    //     const data = {
-    //         date1,
-    //         date2,
-    //     }
+        const month = {
+            date1,
+            date2,
+        }
 
-    //     axios.post('http://127.0.0.1:8000/api/export/upload', data);
+        axios.post('http://127.0.0.1:8000/api/export/upload', month);
+        const fetchData = async () => {
+            await axios.get(`http://127.0.0.1:8000/api/export/${date1}/${date2}`).then(res => {
 
-    //     const fetchData = async () => {
-    //         await axios.get(`http://127.0.0.1:8000/api/export/${date1}`).then(res => {
-    //             setUser(res.data.user)
-    //             console.log(user)
-    //         })
-            
+                // reshaping the array
+                const customHeadings = res.data.user.map(item => ({
+                    "User ID": item.id,
+                    "User Email": item.email,
+                    "Date Start Shift": item.date_start_shift,
+                    "Hour Start Shift": item.hour_start_shift,
+                    "Date End Shift": item.date_end_shift,
+                    "Hour End Shift": item.hour_end_shift,
+                    "Selected Month": item.date_start,
+                }))
 
-    //     }
-    //     fetchData()
+                setData(customHeadings)
+            })
+        }
+        fetchData()
 
-    //     customHeadings = user.map(item => ({
-    //         "ID": item.id,
-    //         "Email": item.email,
-    //         "Start Shift": item.orari_inizio,
-    //         "End Shift": item.orari_fine
-    //     }))
-    //     console.log(customHeadings)
-    //     const ws = XLSX.utils.json_to_sheet(user);
-    //     const wb = { Sheets: { data: ws }, SheetNames: ["users_data"] };
-    //     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    //     const blob = new Blob([excelBuffer], { type: fileType });
-    //     FileSaver.saveAs(blob, fileName + ".xlsx");
-        
-    //     let timer = setTimeout(() => {
-    //         // window.location = '/export';
-            
+    }
 
-    //         return (() => {
-    //             clearTimeout(timer)
-    //         })
-    //     }, 3000)
-
-    // }
-
-
-    // return (
-    //     <div>
-    //         <h1>Export page</h1>
-    //         <MonthPicker onChange={setDate}></MonthPicker>
-    //         {date !== null ? (
-    //             <p>
-    //                 Start: {moment(date[0]).format("YYYY-MM-DD")} <br />
-    //                 End: {moment(date[1]).format("YYYY-MM-DD")} <br></br>
-    //                 <button onClick={fetch}>Export data</button>
-    //                 {/* <ExportExcel apiData={user} fileName={fileName} /> */}
-    //             </p>
-
-    //         ) : null}
-
-
-
-    //     </div>
-    // )
-
-
-
-    const [userData, setUserData] = useState([]);
-    
-    useEffect(() => {
-        fetch('http://jsonplaceholder.typicode.com/albums')
-        .then(response => response.json())
-        .then(json => {
-            console.log("Json", json)
-            setUserData(json)
-        })
-    }, [])
+    function excel() {
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const blob = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(blob, fileName + fileExtension);
+    }
 
     return (
         <div>
-            <ExportExcel userDetail={userData} />
+            <MonthPicker onChange={setDate}></MonthPicker>
+            {date !== null ? (
+                <p>
+                    Start: {moment(date[0]).format("YYYY-MM-DD")} <br />
+                    End: {moment(date[1]).format("YYYY-MM-DD")} <br></br>
+                    <button onClick={exportData}>Export</button>
+                </p>
+            ) : null}
         </div>
-    )
+    );
 
 }
 

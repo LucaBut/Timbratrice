@@ -166,7 +166,7 @@ class RegisterController extends Controller
     public function export_upload(Request $request){
         $data = [
             'date1'=>$request['date1'],
-            'date1'=>$request['date2'],
+            'date2'=>$request['date2'],
         ];
 
         return response()->json([
@@ -176,16 +176,19 @@ class RegisterController extends Controller
     }
 
     //Function export .xlsx
-    public function export(){
+    public function export($date1, $date2){
 
         // $user = login::selectRaw("id, email, orari_inizio, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_one, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start")    
         //              ->get()->toArray();
 
-        $user = login::select('*')->get()->toArray();
+        $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_start_shift, SUBSTRING_INDEX(orari_inizio, ' ', -1) as hour_start_shift, DATE_FORMAT(orari_inizio, '%Y-%m') as year_and_month, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_end_shift, SUBSTRING_INDEX(orari_fine, ' ', -1) as hour_end_shift, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start, DATE_FORMAT(orari_fine, '%Y-%m') as year_and_month_end, DATE_FORMAT('{$date2}', '%Y-%m') as date_end" )
+                     ->havingRaw("year_and_month = date_start and year_and_month_end = date_end")->get();
 
+        // $user = login::select('*')->get();
+        
 
         return response()->json([
-            'User'=>$user
+            "user"=>$user,
         ]);
     }
 
