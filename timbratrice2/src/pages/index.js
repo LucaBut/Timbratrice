@@ -60,7 +60,6 @@ function Home() {
         axios.post('http://127.0.0.1:8000/api/fine', data).then(res => {
             if (res.data.status === 200) {
                 console.log(end.email);
-                // sessionStorage.clear();
                 swal("Goodbye", res.data.message, "success").then(function () {         //Pop-up message with success for start shift operation
                     window.location = '/';
                 })

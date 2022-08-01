@@ -3,21 +3,21 @@ import axios from "axios";
 import MonthPicker from "simple-react-month-picker";
 import moment from "moment";
 import * as XLSX from "xlsx";
-import FileSaver from "file-saver";
+import FileSaver from "file-saver"; 
 
 function Export() {
 
     const [data, setData] = useState([])
     const [date, setDate] = useState(null);
 
-useEffect(() => {
-    if(data.length > 0){
-         excel()
-    }
-   
-}, [data])
+    // useEffect(() => {
+    //     if (data.length > 0) {
+    //         excel()
+    //     }
 
-    const fileName = "user_data"; 
+    // }, [data])
+
+    const fileName = "user_data_" + date;
     const fileType = "xlsx";
     const fileExtension = ".xlsx";
 

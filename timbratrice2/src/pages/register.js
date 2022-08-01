@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import "./register.css";
 import axios from 'axios';
 import swal from 'sweetalert';
-import {useNavigate} from 'react-router-dom';
 
 function Register() {
-
-    const history = useNavigate();
 
     const [registerInput, setRegister] = useState({
         nome: '',
@@ -37,7 +34,6 @@ function Register() {
                     swal("Success", res.data.message, "success").then(function(){
                         window.location = '/';
                     });
-                    history.push('/');
                 } else {
                     setRegister({ ...registerInput, error_list: res.data.validation_errors })
                 }

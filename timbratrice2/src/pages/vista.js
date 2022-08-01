@@ -1,11 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./view.css";
 import axios from "axios";
 import Moment from "react-moment";
 import 'moment-timezone';
 import swal from "sweetalert";
-import * as XLSX from 'xlsx';
-import FileSaver from "file-saver";
+
 
 function Vista(){
 
@@ -13,11 +12,8 @@ function Vista(){
     const [loginf, setLoginf] = useState([]);
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
-    const fileType = "xlsx";
-    const fileName = "user_data";
 
     useEffect(() => {       //Fetch data when page mount
-        console.log("Ciao")
         
             let isMounted = true;
 
@@ -60,14 +56,6 @@ function Vista(){
         })
     }
 
-    // const exportToCSV = () => {
-    //     const ws = XLSX.utils.json_to_sheet(login);
-    //     const wb = { Sheets: { data: ws }, SheetNames: ["users_data"] };
-    //     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    //     const blob = new Blob([excelBuffer], { type: fileType });
-    //     FileSaver.saveAs(blob, fileName + ".xlsx");
-    // }
-
 
     return (
         <div>
@@ -85,13 +73,9 @@ function Vista(){
                     {utenti_HTMLTABLE}
                 </tbody>
             </table>
-            {/* <button onClick={exportToCSV}>Export</button> */}
         </div>
         </div>
     )
-
-    
-    
 
 }
 
