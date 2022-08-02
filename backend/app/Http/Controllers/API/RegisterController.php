@@ -9,6 +9,7 @@ use App\Models\user;
 use App\Models\login;
 use App\Models\loginf;
 use App\Models\view;
+use App\Models\events;
 use DB;
 use App\Mail\SignUp;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Mail;
 use App\resources\views\SignUpView;
 use App\Notifications\WelcomeEmailNotification;
 use App\Exports\UsersExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Excel;
 
 
 class RegisterController extends Controller
@@ -202,6 +203,32 @@ class RegisterController extends Controller
 
     }
 
+    public function event(Request $request){
+
+
+        $data = [
+            'email'=>$request['email'],
+            'event'=>$request['event'],
+            'date'=>$request['date'],
+        ];
+
+        $event = events::create($data);
+
+        return response()->json([
+            'status'=>200,
+            'event'=>$data,
+        ]);
+    }
+
+    public function getEvent($email, $date){
+        $event = events::select('email', 'event')->get()->toArray();
+
+        return response()->json([
+            'status'=>200,
+            'event'=>$event,
+        ]);
+    }
+
 //-------------------------------------------------------------Admin---------------------------------------------------------//
 
     //Function for get all logins
@@ -308,15 +335,18 @@ class RegisterController extends Controller
     //Function export .xlsx
     public function export($date1, $date2){
         $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_start_shift, SUBSTRING_INDEX(orari_inizio, ' ', -1) as hour_start_shift, DATE_FORMAT(orari_inizio, '%Y-%m') as year_and_month, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_end_shift, SUBSTRING_INDEX(orari_fine, ' ', -1) as hour_end_shift, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start, DATE_FORMAT(orari_fine, '%Y-%m') as year_and_month_end, DATE_FORMAT('{$date2}', '%Y-%m') as date_end" )
-                     ->havingRaw("year_and_month = date_start")->get();
+                     ->havingRaw("year_and_month = date_start")->get()->toArray();
 
-        return Excel::download(new UsersExport, 'users_data.xlsx');
+        // return response()->json([
+        //     "user"=>$user,
+        // ]);
 
-        return response()->json([
-            "user"=>$user,
-        ]);
     }
 
+    public function export2(){
 
+        return Excel::download(new UsersExport, 'users.xlsx');
+        
+    }
 
 }

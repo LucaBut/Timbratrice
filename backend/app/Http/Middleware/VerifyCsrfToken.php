@@ -26,6 +26,8 @@ class VerifyCsrfToken extends Middleware
         '/api/orario',
         '/api/export/upload',
         '/api/export',
+        '/api/event/upload',
+        '/api/event',
 
     ];
 }

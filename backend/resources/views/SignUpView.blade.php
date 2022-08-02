@@ -7,10 +7,10 @@ Here is your data: <br><br>
 -Email: {{ $email }} <br><br>
 -Password: {{ $password }} <br><br>
 
-Please change your password here:
+<center> Please change your password after login: </center>
 
-@component('mail::button', ['url' => 'http://127.0.0.1:3000/password'])
-    Click Here to change your password
+@component('mail::button', ['url' => 'http://127.0.0.1:3000/'])
+    Click Here to login
 @endcomponent
 
 @endcomponent

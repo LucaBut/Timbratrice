@@ -10,6 +10,7 @@ import Admin from './pages/admin';
 import Change from './pages/changePassword';
 import Calendario from './pages/calendar';
 import Export from './pages/exportData';
+import Fullcalendar from './pages/fullCalendar';
 import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -21,8 +22,7 @@ function App() {
 		<Router>
 			<Navbar />
 			<Routes>
-				<Route exact path='/' index element={<SignUp />} 	//First page when site load
-				/>
+				<Route exact path='/' index element={<SignUp />} />	{/*First page when site load */}
 				<Route path='/home' element={<Home />} />
 				<Route path='/register' element={<Register />} />
 				<Route path='/view' element={<Vista />} />
@@ -30,6 +30,7 @@ function App() {
 				<Route path='/password' element={<Change />} />
 				<Route path='/calendar' element={<Calendario />} />
 				<Route path='/export' element={<Export />} />
+				<Route path='/fullcalendar' element={<Fullcalendar />} />
 			</Routes>
 		</Router>
 	);

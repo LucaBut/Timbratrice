@@ -42,7 +42,8 @@ function Admin() {
 
         axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
             axios.post('http://127.0.0.1:8000/api/reg-admin', data).then(res => {
-            <h4>Loading...</h4>    
+            <h4>Loading...</h4>   
+            swal("Loading, 'info"); 
             if (res.data.status === 200) {
                     swal("Success", res.data.message, "success");
                 } else {
