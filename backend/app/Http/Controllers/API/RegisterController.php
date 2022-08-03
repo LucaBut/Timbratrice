@@ -204,7 +204,12 @@ class RegisterController extends Controller
     }
 
     public function event(Request $request){
-
+        $validator = Validator::make($request->all(), [     //Require data
+            'email'=> 'required|email',
+            'event'=> 'required',
+            'date'=>'required',
+            'hour'=>'required',
+        ]);
 
         $data = [
             'email'=>$request['email'],
@@ -212,7 +217,7 @@ class RegisterController extends Controller
             'date'=>$request['date'],
         ];
 
-        $event = events::create($data);
+        $event_info = events::create($data);
 
         return response()->json([
             'status'=>200,
@@ -221,7 +226,13 @@ class RegisterController extends Controller
     }
 
     public function getEvent($email, $date){
-        $event = events::select('email', 'event')->get()->toArray();
+
+        $final_date = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');
+
+        $event = events::selectRaw("email, event, SUBSTRING_INDEX(date, ' ', 1) as date_day, SUBSTRING_INDEX(date, ' ', -1) as hour_event, '{$final_date}'")
+                        ->where('email', '=', $email)
+                        ->having('date_day', '=', $final_date)
+                        ->get()->toArray();
 
         return response()->json([
             'status'=>200,

@@ -10,12 +10,12 @@ function Export() {
     const [data, setData] = useState([])
     const [date, setDate] = useState(null);
 
-    // useEffect(() => {
-    //     if (data.length > 0) {
-    //         excel()
-    //     }
+    useEffect(() => {
+        if (data.length > 0) {
+            excel()
+        }
 
-    // }, [data])
+    }, [data])
 
     const fileName = "user_data_" + date;
     const fileType = "xlsx";
@@ -33,23 +33,23 @@ function Export() {
 
         axios.post('http://127.0.0.1:8000/api/export/upload', month);
         const fetchData = async () => {
-            // await axios.get(`http://127.0.0.1:8000/api/export/${date1}/${date2}`).then(res => {
+            await axios.get(`http://127.0.0.1:8000/api/export/${date1}/${date2}`).then(res => {
 
-            //     // reshaping the array
-            //     const customHeadings = res.data.user.map(item => ({
-            //         "User ID": item.id,
-            //         "User Email": item.email,
-            //         "Date Start Shift": item.date_start_shift,
-            //         "Hour Start Shift": item.hour_start_shift,
-            //         "Date End Shift": item.date_end_shift,
-            //         "Hour End Shift": item.hour_end_shift,
-            //         "Selected Month": item.date_start,
-            //     }))
+                // reshaping the array
+                const customHeadings = res.data.user.map(item => ({
+                    "User ID": item.id,
+                    "User Email": item.email,
+                    "Date Start Shift": item.date_start_shift,
+                    "Hour Start Shift": item.hour_start_shift,
+                    "Date End Shift": item.date_end_shift,
+                    "Hour End Shift": item.hour_end_shift,
+                    "Selected Month": item.date_start,
+                }))
 
-            //     setData(res.data.user)
-            // })
+                setData(customHeadings)
+            })
 
-            await axios.get('http://127.0.0.1:8000/api/export2');
+            // await axios.get('http://127.0.0.1:8000/api/export2');
         }
         fetchData()
 

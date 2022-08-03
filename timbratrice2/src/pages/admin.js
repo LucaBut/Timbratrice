@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import './admin.css';
 import axios from "axios";
 import swal from "sweetalert";
-import { useNavigate } from 'react-router-dom';
 import { numbers, uppercase, lowercase, symbols } from "./character";
 
 function Admin() {
@@ -15,8 +14,6 @@ function Admin() {
             window.location = '/home'
         })
     }
-
-    const history = useNavigate();
 
     const [registerInput, setRegister] = useState({
         nome: '',
@@ -74,24 +71,6 @@ function Admin() {
         }
         return passwordG
     }
-
-    const copyToClipboard = () => {
-        const newTextArea = document.createElement('textarea')
-        newTextArea.innerText = passwordG
-        document.body.appendChild(newTextArea)
-        newTextArea.select()
-        document.execCommand('copy')
-        newTextArea.remove()
-        swal({
-            icon: 'success',
-            text: 'Copy success'
-        })
-    }
-
-    const handleCopyPassword = (e) => {
-        copyToClipboard()
-    }
-
 
     return (
         <div className="div-reg-user">

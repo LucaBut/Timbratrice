@@ -11,6 +11,7 @@ import Change from './pages/changePassword';
 import Calendario from './pages/calendar';
 import Export from './pages/exportData';
 import Fullcalendar from './pages/fullCalendar';
+import AddEvent from './pages/addEvent';
 import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -31,6 +32,7 @@ function App() {
 				<Route path='/calendar' element={<Calendario />} />
 				<Route path='/export' element={<Export />} />
 				<Route path='/fullcalendar' element={<Fullcalendar />} />
+				<Route path='/addEvent' element={<AddEvent />} />
 			</Routes>
 		</Router>
 	);

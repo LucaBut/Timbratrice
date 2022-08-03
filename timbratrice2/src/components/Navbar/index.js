@@ -34,9 +34,11 @@ function Navbar() {
       <center>
       <ul className='nav-bar-bar'>
         <li><a href='/view'>Users log</a></li>
-        <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
         <li><a href='/admin'>Add Users</a></li>
+        <li><a href='/fullcalendar'>Events on calendar</a></li>
+        <li><a href='/addEvent'>Add events to users</a></li>
         <li><a href='/export'>Export data</a></li>
+        <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
       </ul>
       </center>
 
@@ -47,7 +49,8 @@ function Navbar() {
       <ul className='nav-bar-bar'>
         <li><a href='/home'>Home</a></li>
         <li><a href='/password'>Change Password</a></li>
-        <li><a href='/calendar'>Calendar</a></li>
+        <li><a href='/calendar'>Calendar shifts</a></li>
+        <li><a href='/fullcalendar'>Events on calendar</a></li>
         <li className='logout-btn'><a onClick={logoutSubmit}>Logout</a></li>
       </ul>
       </center>
