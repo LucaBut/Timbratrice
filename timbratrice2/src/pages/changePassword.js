@@ -10,7 +10,7 @@ function Change() {
         password: '',
         error_list: [],
     });
-    
+
 
     const handleChange = (e) => {
         e.persist();
@@ -19,26 +19,26 @@ function Change() {
 
     const changeSubmit = (e) => {
         e.preventDefault();
-        const data = {
+        const data = {                  //Declaring data for post
             email: sessionStorage.getItem('auth_nome'),
             password: changePassword.password,
         }
 
-            axios.post('http://127.0.0.1:8000/api/change', data).then(res => {
-                if (res.data.status === 200) {
-                    swal({
-                        text: "Password successfully changed",
-                        icon: "success",
-                    }).then(function () {
-                        window.location = '/';
-                    })
-                } else {
-                    setChangePassword({ ...changePassword, error_list: res.data.validation_errors })
-                }
-            })
+        axios.post('http://127.0.0.1:8000/api/change', data).then(res => {
+            if (res.data.status === 200) {          //If status return 200 show success message
+                swal({
+                    text: "Password successfully changed",
+                    icon: "success",
+                }).then(function () {
+                    window.location = '/';
+                })
+            } else {
+                setChangePassword({ ...changePassword, error_list: res.data.validation_errors })
+            }
+        })
     }
 
-    return (
+    return (            //Create the input for change password
         <div className="change">
             <div>
                 <form onSubmit={changeSubmit} className="change-form">

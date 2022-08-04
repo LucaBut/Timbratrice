@@ -203,6 +203,7 @@ class RegisterController extends Controller
 
     }
 
+    //Function event
     public function event(Request $request){
         $validator = Validator::make($request->all(), [     //Require data
             'email'=> 'required|email',
@@ -217,7 +218,7 @@ class RegisterController extends Controller
             'date'=>$request['date'],
         ];
 
-        $event_info = events::create($data);
+        $event_info = events::create($data);        //Create new event record
 
         return response()->json([
             'status'=>200,
@@ -225,9 +226,10 @@ class RegisterController extends Controller
         ]);
     }
 
+    //Function getEvent
     public function getEvent($email, $date){
 
-        $final_date = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');
+        $final_date = Carbon::createFromFormat('D M d Y', $date)->format('Y-m-d');      //Converting the original format date with a format (Y-m-d)
 
         $event = events::selectRaw("email, event, SUBSTRING_INDEX(date, ' ', 1) as date_day, SUBSTRING_INDEX(date, ' ', -1) as hour_event, '{$final_date}'")
                         ->where('email', '=', $email)
@@ -348,16 +350,16 @@ class RegisterController extends Controller
         $user = login::selectRaw("id, email, SUBSTRING_INDEX(orari_inizio, ' ', 1) as date_start_shift, SUBSTRING_INDEX(orari_inizio, ' ', -1) as hour_start_shift, DATE_FORMAT(orari_inizio, '%Y-%m') as year_and_month, SUBSTRING_INDEX(orari_fine, ' ', 1) as date_end_shift, SUBSTRING_INDEX(orari_fine, ' ', -1) as hour_end_shift, SUBSTRING_INDEX('{$date1}', '-01', 1) as date_start, DATE_FORMAT(orari_fine, '%Y-%m') as year_and_month_end, DATE_FORMAT('{$date2}', '%Y-%m') as date_end" )
                      ->havingRaw("year_and_month = date_start")->get()->toArray();
 
-        // return response()->json([
-        //     "user"=>$user,
-        // ]);
+        return response()->json([
+            "user"=>$user,
+        ]);
 
     }
 
-    public function export2(){
+    // public function export2(){
 
-        return Excel::download(new UsersExport, 'users.xlsx');
+    //     return Excel::download(new UsersExport, 'users.xlsx');
         
-    }
+    // }
 
 }

@@ -29,13 +29,13 @@ function SignUp() {
                     sessionStorage.setItem('auth_token', res.data.token);
                     sessionStorage.setItem('auth_nome', res.data.username);
                     swal("Success", res.data.message, "success").then(function () {
-                        if(sessionStorage.getItem('auth_nome') === 'admin@gmail.com'){
-                            window.location='/view';
-                        }else{
+                        if (sessionStorage.getItem('auth_nome') === 'admin@gmail.com') {
+                            window.location = '/view';
+                        } else {
                             window.location = '/home';
                         }
                     });
-         
+
                 } else if (res.data.status === 401) {
                     swal("Warning", res.data.message, "warning");
                 } else {

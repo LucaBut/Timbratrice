@@ -23,15 +23,15 @@ function Fullcalendar() {
 
     const eventSubmit = (e) => {
         e.preventDefault();
-        const data = {
+        const data = {                          //Declaring data for post
             email: sessionStorage.getItem('auth_nome'),
             event: input.event,
-            date: date + hour,
+            date: date + hour,                  //To date value assing date + hour value
         }
 
         axios.post('http://127.0.0.1:8000/api/event/upload', data).then(res => {
-            if (res.data.status === 200) {
-                swal("Event successfully saved", "success");
+            if (res.data.status === 200) {              //If post return status 200
+                swal("Event successfully saved", "success");        //Show success message
             } else {
                 setInput({ ...input, error_list: res.data.validation_errors })
             }
@@ -41,15 +41,15 @@ function Fullcalendar() {
 
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/event/${email}/${date}`).then(res => {
+        axios.get(`http://127.0.0.1:8000/api/event/${email}/${date}`).then(res => {     //Get method with email and date value
             if (res.data.status === 200) {
-                setUserEvent(res.data.event);
+                setUserEvent(res.data.event);       //If get return status 200 assing to setUserEvent the response values
             }
         });
-    }, [date])
+    }, [date])                  //Execute every time data change
 
     var userEvenetLabel = "";
-    userEvenetLabel = userEvent.map((item) => {
+    userEvenetLabel = userEvent.map((item) => {             //Map userEvent value
         return (
             <h3 key={item.id}>{item.event} at: {item.hour_event}</h3>
         )
@@ -57,7 +57,7 @@ function Fullcalendar() {
 
 
     let footer;
-    if (date) {
+    if (date) {             //If date exist assign to the footer of the calendar the input text, the component the TimePicker component and the button to save the event
         footer =
             <label>
                 <h4>You picked: {date}</h4>
@@ -73,7 +73,7 @@ function Fullcalendar() {
     }
 
 
-    return (
+    return (        //Create the calendar component
         <DayPicker footer={footer} className="calendar" mode="single" selected={date} onSelect={(date) => { setDate(date.toDateString()) }} />
     );
 }

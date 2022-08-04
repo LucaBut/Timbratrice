@@ -5,13 +5,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/index';
 import SignUp from './pages/login';
 import Register from './pages/register';
-import Vista from './pages/vista';
-import Admin from './pages/admin';
+import Vista from './pages/admin/vista';
+import Admin from './pages/admin/admin';
 import Change from './pages/changePassword';
 import Calendario from './pages/calendar';
-import Export from './pages/exportData';
+import Export from './pages/admin/exportData';
 import Fullcalendar from './pages/fullCalendar';
-import AddEvent from './pages/addEvent';
+import AddEvent from './pages/admin/addEvent';
 import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';

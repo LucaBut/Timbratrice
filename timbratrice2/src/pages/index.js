@@ -31,7 +31,7 @@ function Home() {
             if (res.data.status === 200) {
                 // sessionStorage.clear();
                 swal("Good Work", res.data.message, "success").then(function () {   //Pop-up message with success for start shift operation
-                    window.location = '/';
+                    // window.location = '/';
                 })
             } else {
                 setStart({ ...start, error_list: res.data.validation_error });
@@ -59,9 +59,8 @@ function Home() {
 
         axios.post('http://127.0.0.1:8000/api/fine', data).then(res => {
             if (res.data.status === 200) {
-                console.log(end.email);
                 swal("Goodbye", res.data.message, "success").then(function () {         //Pop-up message with success for start shift operation
-                    window.location = '/';
+                    // window.location = '/';
                 })
             } else {
                 setEnd({ ...end, error_list_: res.data.validation_error });

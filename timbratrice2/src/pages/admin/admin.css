@@ -1,0 +1,82 @@
+
+.form-user {
+    
+    align-items: center;
+    background-color: aliceblue;
+    border-radius: 20px;
+    height: 400px;
+    margin-top: 0%;
+}
+
+.user-write {
+    font-size: 50px;
+    margin-bottom: 200px;
+}
+
+.lU {
+    display: flex;
+    margin-top: 30px;
+    flex-direction: row;
+    justify-content: flex-end;
+    text-align: right; 
+    align-items: center;
+    width: 300px;
+    line-height: 26px;
+    margin-bottom: 10px;
+}
+
+.iU {
+    height: 20px;
+    align-items: center;
+    flex: 0 0 200px;
+    margin-left: 10px;
+}
+
+.generator_password{
+    position: relative;
+    background: #333333;
+    padding: 13px 10px;
+    color: #fff;
+    height: 46px;
+    margin-bottom: 15px;
+}
+
+.copy_btn{
+    position: absolute;
+    background: rgb(255, 255, 255);
+    border: none;
+    height: 40px;
+    padding: 10px;
+    cursor: pointer;
+    top: 16px;
+    right: 3px;
+}
+
+.generator-btn{
+    background: #333333;
+    color: rgb(255, 255, 255);
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.form-group{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.div-reg-user {
+    display: flex;
+    margin-top: 50%;
+}
+
+.generator-form {
+    display: flex;
+    position: absolute;
+    margin-top: 350px;
+    padding-left: 30px;
+}

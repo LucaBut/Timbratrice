@@ -33,6 +33,8 @@ function Navbar() {
     AuthButtons = (
       <center>
       <ul className='nav-bar-bar'>
+        <li><a href='/home'>Home</a></li>
+        <li><a href='/password'>Change Password</a></li>
         <li><a href='/view'>Users log</a></li>
         <li><a href='/admin'>Add Users</a></li>
         <li><a href='/fullcalendar'>Events on calendar</a></li>
